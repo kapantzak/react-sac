@@ -3,4 +3,5 @@
 }
 .sac-item-label-text {
   display: inline-block;
+  cursor: pointer;
 }

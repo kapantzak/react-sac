@@ -30,12 +30,9 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
     console.log(`Cliked id: ${item.id} (selected: ${item.selected})`);
   };
 
-  const items = props.data.map(x =>
-    SacItem({
-      item: x,
-      itemClickHandler
-    })
-  );
+  const items = props.data.map(x => (
+    <SacItem key={x.id} item={x} itemClickHandler={itemClickHandler}></SacItem>
+  ));
 
   return (
     <div className="sac-wrapper">

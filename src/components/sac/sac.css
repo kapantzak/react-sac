@@ -33,3 +33,7 @@
   width: 15px;
   cursor: pointer;
 }
+
+.hidden {
+  display: none;
+}
