@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
+import { calculateSelectedItems } from "../../helpers/selectedItemsHelper";
 import SacItem from "../sacItem/sacItem";
 import "./sac.css";
 
@@ -27,7 +28,8 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
   const [selectedItems, setSelectedItems] = useState<ISacItem[]>([]);
 
   const itemClickHandler = (item: ISacItem) => {
-    console.log(`Cliked id: ${item.id} (selected: ${item.selected})`);
+    const newSelectedItems = calculateSelectedItems(item, selectedItems);
+    setSelectedItems(newSelectedItems);
   };
 
   const items = props.data.map(x => (
