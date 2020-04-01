@@ -1,3 +1,6 @@
 .sac-item-selected {
   background-color: orange;
 }
+.sac-item-label-text {
+  display: inline-block;
+}

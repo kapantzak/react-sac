@@ -14,6 +14,7 @@ export interface ISacItem {
   id: string;
   value: string;
   selected?: boolean;
+  expanded?: boolean;
   children?: ISacItem[];
 }
 
