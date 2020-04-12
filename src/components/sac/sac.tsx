@@ -1,11 +1,7 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import { calculateSelectedItems } from "../../helpers/selectedItemsHelper";
 import SacButton from "../sacButton/sacButton";
-import CloseElement from "../closeElement/closeElement";
-import Header from "../header/header";
-import Tooltip from "../tooltip/tooltip";
-import SacItems from "../sacItems/sacItems";
-import Footer from "../footer/footer";
+import SacOverlay from "../sacOverlay/sacOverlay";
 import "./sac.css";
 
 export interface ISacProps {
@@ -68,19 +64,11 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
   const renderSacOverlay = (): JSX.Element | null => {
     if (isOpened) {
       return (
-        <div className="sac-overlay">
-          <div className="sac-modal">
-            <CloseElement closeElementClickHandler={closeElementClickHandler} />
-            <Header title={props.modalTitle}></Header>
-            <div className="sac-modal-body">
-              <Tooltip></Tooltip>
-              <SacItems
-                data={props.data}
-                itemClickHandler={itemClickHandler}></SacItems>
-            </div>
-            <Footer></Footer>
-          </div>
-        </div>
+        <SacOverlay
+          modalTitle={props.modalTitle}
+          data={props.data}
+          closeElementClickHandler={closeElementClickHandler}
+          itemClickHandler={itemClickHandler}></SacOverlay>
       );
     }
     return null;
