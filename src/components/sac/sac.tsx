@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import { calculateSelectedItems } from "../../helpers/selectedItemsHelper";
+import SacButton from "../sacButton/sacButton";
 import CloseElement from "../closeElement/closeElement";
 import Header from "../header/header";
 import Tooltip from "../tooltip/tooltip";
@@ -87,12 +88,7 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
 
   return (
     <React.Fragment>
-      <button
-        className="sac-btn"
-        type="button"
-        onClick={mainButtonClickHanlder}>
-        Click
-      </button>
+      <SacButton mainButtonClickHanlder={mainButtonClickHanlder}></SacButton>
       {renderSacOverlay()}
     </React.Fragment>
   );
