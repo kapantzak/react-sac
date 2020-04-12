@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import { calculateSelectedItems } from "../../helpers/selectedItemsHelper";
-import SacItem from "../sacItem/sacItem";
+import SacItems from "../sacItems/sacItems";
 import CloseElement from "../closeElement/closeElement";
 import "./sac.css";
 
@@ -60,10 +60,6 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
     setSelectedItems(newSelectedItems);
   };
 
-  const items = props.data.map((x) => (
-    <SacItem key={x.id} item={x} itemClickHandler={itemClickHandler}></SacItem>
-  ));
-
   const renderSacOverlay = (): JSX.Element | null => {
     if (isOpened) {
       return (
@@ -73,7 +69,9 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
             <header>Modal title</header>
             <div className="sac-modal-body">
               <div className="sac-modal-tooltip">Tools</div>
-              <div className="sac-modal-items">{items}</div>
+              <SacItems
+                data={props.data}
+                itemClickHandler={itemClickHandler}></SacItems>
             </div>
             <footer>Footer</footer>
           </div>
