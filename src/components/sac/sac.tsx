@@ -1,10 +1,14 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import { calculateSelectedItems } from "../../helpers/selectedItemsHelper";
-import SacItems from "../sacItems/sacItems";
 import CloseElement from "../closeElement/closeElement";
+import Header from "../header/header";
+import Tooltip from "../tooltip/tooltip";
+import SacItems from "../sacItems/sacItems";
+import Footer from "../footer/footer";
 import "./sac.css";
 
 export interface ISacProps {
+  modalTitle: string;
   data: ISacItem[];
   opened?: boolean;
   multiSelect?: boolean;
@@ -66,14 +70,14 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
         <div className="sac-overlay">
           <div className="sac-modal">
             <CloseElement closeElementClickHandler={closeElementClickHandler} />
-            <header>Modal title</header>
+            <Header title={props.modalTitle}></Header>
             <div className="sac-modal-body">
-              <div className="sac-modal-tooltip">Tools</div>
+              <Tooltip></Tooltip>
               <SacItems
                 data={props.data}
                 itemClickHandler={itemClickHandler}></SacItems>
             </div>
-            <footer>Footer</footer>
+            <Footer></Footer>
           </div>
         </div>
       );

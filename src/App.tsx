@@ -13,26 +13,26 @@ const data: ISacItem[] = [
         children: [
           {
             id: "1.1.1",
-            value: "One.One.One"
-          }
-        ]
+            value: "One.One.One",
+          },
+        ],
       },
       {
         id: "1.2",
-        value: "One.Two"
-      }
-    ]
+        value: "One.Two",
+      },
+    ],
   },
   {
     id: "2",
-    value: "Two"
-  }
+    value: "Two",
+  },
 ];
 
 function App() {
   return (
     <div className="App">
-      <Sac data={data}></Sac>
+      <Sac modalTitle="Modal title" data={data}></Sac>
     </div>
   );
 }
