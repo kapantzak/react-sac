@@ -67,6 +67,7 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
         <SacOverlay
           modalTitle={props.modalTitle}
           data={props.data}
+          multiSelect={props.multiSelect || true}
           closeElementClickHandler={closeElementClickHandler}
           itemClickHandler={itemClickHandler}></SacOverlay>
       );

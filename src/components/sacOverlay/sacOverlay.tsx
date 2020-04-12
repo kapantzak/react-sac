@@ -10,6 +10,7 @@ import "./sacOverlay.css";
 export interface ISacOverlayProps {
   modalTitle: string;
   data: ISacItem[];
+  multiSelect: boolean;
   closeElementClickHandler: Function;
   itemClickHandler: Function;
 }
@@ -30,7 +31,7 @@ const SacOverlay: FunctionComponent<ISacOverlayProps> = (
             data={props.data}
             itemClickHandler={props.itemClickHandler}></SacItems>
         </div>
-        <Footer></Footer>
+        <Footer multiSelect={props.multiSelect}></Footer>
       </div>
     </div>
   );
