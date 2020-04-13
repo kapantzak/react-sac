@@ -1,29 +1,41 @@
 import React, { FunctionComponent } from "react";
+import { ISacOptModal, ISacOptFooter } from "../sac/sac";
+import Button from "../button/button";
 import "./footer.css";
 
 export interface IFooterProps {
-  multiSelect: boolean;
+  modalOptions?: ISacOptModal;
+  footerOptions?: ISacOptFooter;
 }
 
 const Footer: FunctionComponent<IFooterProps> = (props: IFooterProps) => {
+  const selectClickHanlder = () => {
+    alert("Select");
+  };
+
+  const renderSelectionButtons = () => {
+    if ((props.modalOptions || {}).multiSelect === true) {
+      return (
+        <React.Fragment>
+          <Button
+            text="Invert selection"
+            clickHandler={selectClickHanlder}></Button>
+          <Button text="Select all" clickHandler={selectClickHanlder}></Button>
+          <Button
+            text="Deselect all"
+            clickHandler={selectClickHanlder}></Button>
+        </React.Fragment>
+      );
+    }
+    return null;
+  };
+
   return (
     <footer>
       <div className="sac-footer-buttons-holder">
-        <button className="sac-footer-button" type="button">
-          Select
-        </button>
-        <button className="sac-footer-button" type="button">
-          Invert selection
-        </button>
-        <button className="sac-footer-button" type="button">
-          Select all
-        </button>
-        <button className="sac-footer-button" type="button">
-          Deselect all
-        </button>
-        <button className="sac-footer-button" type="button">
-          Cancel
-        </button>
+        <Button text="Select" clickHandler={selectClickHanlder}></Button>
+        {renderSelectionButtons()}
+        <Button text="Cancel" clickHandler={selectClickHanlder}></Button>
       </div>
     </footer>
   );

@@ -4,13 +4,12 @@ import Header from "../header/header";
 import Tooltip from "../tooltip/tooltip";
 import SacItems from "../sacItems/sacItems";
 import Footer from "../footer/footer";
-import { ISacItem } from "../sac/sac";
+import { ISacItem, ISacOptions } from "../sac/sac";
 import "./sacOverlay.css";
 
 export interface ISacOverlayProps {
-  modalTitle: string;
   data: ISacItem[];
-  multiSelect: boolean;
+  options: ISacOptions;
   closeElementClickHandler: Function;
   itemClickHandler: Function;
 }
@@ -18,20 +17,24 @@ export interface ISacOverlayProps {
 const SacOverlay: FunctionComponent<ISacOverlayProps> = (
   props: ISacOverlayProps
 ) => {
+  const options = props.options;
+
   return (
     <div className="sac-overlay">
       <div className="sac-modal">
         <CloseElement
           closeElementClickHandler={props.closeElementClickHandler}
         />
-        <Header title={props.modalTitle}></Header>
+        <Header headerOptions={options.header || {}}></Header>
         <div className="sac-modal-body">
-          <Tooltip></Tooltip>
+          <Tooltip toolsOptions={options.tools || {}}></Tooltip>
           <SacItems
             data={props.data}
             itemClickHandler={props.itemClickHandler}></SacItems>
         </div>
-        <Footer multiSelect={props.multiSelect}></Footer>
+        <Footer
+          modalOptions={options.modal}
+          footerOptions={options.footer}></Footer>
       </div>
     </div>
   );

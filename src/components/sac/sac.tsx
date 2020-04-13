@@ -2,14 +2,52 @@ import React, { FunctionComponent, useState, useEffect } from "react";
 import { calculateSelectedItems } from "../../helpers/selectedItemsHelper";
 import SacButton from "../sacButton/sacButton";
 import SacOverlay from "../sacOverlay/sacOverlay";
+import { defaultOptions } from "../../helpers/optionsHelper";
+import assign from "lodash.assign";
 import "./sac.css";
 
 export interface ISacProps {
-  modalTitle: string;
   data: ISacItem[];
+  options?: ISacOptions;
+}
+
+export interface ISacOptions {
+  modal?: ISacOptModal;
+  header?: ISacOptHeader;
+  tools?: ISacOptTools;
+  footer?: ISacOptFooter;
+  events?: ISacOptEvents;
+}
+
+export interface ISacOptModal {
   opened?: boolean;
   multiSelect?: boolean;
   closeModalOnEscapeKey?: boolean;
+}
+
+export interface ISacOptHeader {
+  modalTitle?: string;
+}
+
+export interface ISacOptTools {
+  defaultSearchType?: string;
+}
+
+export interface ISacOptFooter {
+  btnSelect?: ISacOptFooterButton;
+  btnInvertSelection?: ISacOptFooterButton;
+  btnSelectAll?: ISacOptFooterButton;
+  btnDeselectAll?: ISacOptFooterButton;
+  btnCancel?: ISacOptFooterButton;
+}
+
+export interface ISacOptFooterButton {
+  text?: string;
+  className?: string;
+  visible?: boolean;
+}
+
+export interface ISacOptEvents {
   selectionCallback?: (selectionItem?: ISelectionItem) => any;
   modalBeforeCloseCallback?: (selectionItem?: ISelectionItem) => any;
   modalAfterCloseCallback?: (selectionItem?: ISelectionItem) => any;
@@ -29,7 +67,10 @@ export interface ISelectionItem {
 }
 
 const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
-  const [isOpened, setIsOpened] = useState<boolean>(props.opened || false);
+  const options = assign(defaultOptions, props.options);
+  const modal = options.modal || {};
+
+  const [isOpened, setIsOpened] = useState<boolean>(modal.opened || false);
   const [selectedItems, setSelectedItems] = useState<ISacItem[]>([]);
 
   const escKeyDownHandler = (e: KeyboardEvent): void => {
@@ -39,7 +80,7 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
   };
 
   useEffect(() => {
-    if (props.closeModalOnEscapeKey) {
+    if (modal.closeModalOnEscapeKey) {
       document.addEventListener("keydown", escKeyDownHandler);
 
       return () => {
@@ -65,9 +106,8 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
     if (isOpened) {
       return (
         <SacOverlay
-          modalTitle={props.modalTitle}
           data={props.data}
-          multiSelect={props.multiSelect || true}
+          options={options}
           closeElementClickHandler={closeElementClickHandler}
           itemClickHandler={itemClickHandler}></SacOverlay>
       );
@@ -81,12 +121,6 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
       {renderSacOverlay()}
     </React.Fragment>
   );
-};
-
-Sac.defaultProps = {
-  opened: false,
-  multiSelect: true,
-  closeModalOnEscapeKey: true,
 };
 
 export default Sac;

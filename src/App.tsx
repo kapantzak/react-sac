@@ -1,5 +1,5 @@
 import React from "react";
-import Sac, { ISacItem } from "./components/sac/sac";
+import Sac, { ISacItem, ISacOptions } from "./components/sac/sac";
 import "./App.css";
 
 const data: ISacItem[] = [
@@ -29,10 +29,16 @@ const data: ISacItem[] = [
   },
 ];
 
+const options: ISacOptions = {
+  header: {
+    modalTitle: "My title",
+  },
+};
+
 function App() {
   return (
     <div className="App">
-      <Sac modalTitle="Modal title" data={data}></Sac>
+      <Sac options={options} data={data}></Sac>
     </div>
   );
 }
