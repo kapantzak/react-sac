@@ -1,0 +1,6 @@
+.sac-modal-items {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 15px 0;
+}

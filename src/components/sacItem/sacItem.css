@@ -1,3 +1,13 @@
+.sac-modal-items > .sac-item:not(:first-of-type) {
+  padding-left: 15px;
+}
+.sac-item > .sac-item-children > .sac-item {
+  padding-left: 15px;
+}
+.sac-item-toggle-icon.svg-inline--fa {
+  width: 15px;
+  cursor: pointer;
+}
 .sac-item-selected {
   background-color: orange;
 }

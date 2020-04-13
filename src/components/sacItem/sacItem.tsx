@@ -18,7 +18,7 @@ const SacItem: FunctionComponent<ISacItemProps> = (props: ISacItemProps) => {
 
   let children = null;
   if ((props.item.children || []).length > 0) {
-    const childrenItems = (props.item.children || []).map(x => (
+    const childrenItems = (props.item.children || []).map((x) => (
       <SacItem
         key={x.id}
         item={x}
@@ -34,7 +34,7 @@ const SacItem: FunctionComponent<ISacItemProps> = (props: ISacItemProps) => {
   const labelTextClickHandler = () => {
     setIsSelected(!isSelected);
     const item = Object.assign({}, props.item, {
-      selected: !isSelected
+      selected: !isSelected,
     });
     props.itemClickHandler(item);
   };
