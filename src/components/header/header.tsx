@@ -1,12 +1,13 @@
 import React, { FunctionComponent } from "react";
+import { ISacOptHeader } from "../sac/sac";
 import "./header.css";
 
 export interface IHeaderProps {
-  title: string;
+  headerOptions: ISacOptHeader;
 }
 
 const Header: FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
-  return <header>{props.title}</header>;
+  return <header>{props.headerOptions.modalTitle}</header>;
 };
 
 export default Header;
