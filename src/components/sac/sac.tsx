@@ -3,7 +3,7 @@ import { calculateSelectedItems } from "../../helpers/selectedItemsHelper";
 import SacButton from "../sacButton/sacButton";
 import SacOverlay from "../sacOverlay/sacOverlay";
 import { defaultOptions } from "../../helpers/optionsHelper";
-import assign from "lodash.assign";
+import defaultsDeep from "lodash.defaultsdeep";
 import "./sac.css";
 
 export interface ISacProps {
@@ -67,7 +67,7 @@ export interface ISelectionItem {
 }
 
 const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
-  const options = assign(defaultOptions, props.options);
+  const options = defaultsDeep({}, props.options, defaultOptions);
   const modal = options.modal || {};
 
   const [isOpened, setIsOpened] = useState<boolean>(modal.opened || false);

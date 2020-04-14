@@ -33,6 +33,10 @@ const options: ISacOptions = {
   header: {
     modalTitle: "My title",
   },
+  modal: {
+    multiSelect: false,
+    //closeModalOnEscapeKey: true,
+  },
 };
 
 function App() {

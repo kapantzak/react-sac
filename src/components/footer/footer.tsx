@@ -9,22 +9,24 @@ export interface IFooterProps {
 }
 
 const Footer: FunctionComponent<IFooterProps> = (props: IFooterProps) => {
+  const isMultiselect = (props.modalOptions || {}).multiSelect === true;
+
   const selectClickHanlder = () => {
     alert("Select");
   };
 
   const renderSelectionButtons = () => {
-    if ((props.modalOptions || {}).multiSelect === true) {
+    if (isMultiselect) {
       return (
-        <React.Fragment>
+        <div className="sac-footer-buttons-selection">
+          <Button text="Select all" clickHandler={selectClickHanlder}></Button>
           <Button
             text="Invert selection"
             clickHandler={selectClickHanlder}></Button>
-          <Button text="Select all" clickHandler={selectClickHanlder}></Button>
           <Button
             text="Deselect all"
             clickHandler={selectClickHanlder}></Button>
-        </React.Fragment>
+        </div>
       );
     }
     return null;
@@ -32,10 +34,15 @@ const Footer: FunctionComponent<IFooterProps> = (props: IFooterProps) => {
 
   return (
     <footer>
-      <div className="sac-footer-buttons-holder">
-        <Button text="Select" clickHandler={selectClickHanlder}></Button>
+      <div
+        className={`sac-footer-buttons-holder ${
+          isMultiselect ? "sac-footer-multiselect" : "sac-footer-singleselect"
+        }`}>
         {renderSelectionButtons()}
-        <Button text="Cancel" clickHandler={selectClickHanlder}></Button>
+        <div className="sac-footer-buttons-actions">
+          <Button text="OK" clickHandler={selectClickHanlder}></Button>
+          <Button text="Cancel" clickHandler={selectClickHanlder}></Button>
+        </div>
       </div>
     </footer>
   );
