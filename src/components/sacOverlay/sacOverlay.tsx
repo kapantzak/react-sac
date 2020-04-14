@@ -8,6 +8,7 @@ import { ISacItem, ISacOptions } from "../sac/sac";
 import "./sacOverlay.css";
 
 export interface ISacOverlayProps {
+  isOpened: boolean;
   data: ISacItem[];
   options: ISacOptions;
   closeElementClickHandler: Function;
@@ -19,25 +20,28 @@ const SacOverlay: FunctionComponent<ISacOverlayProps> = (
 ) => {
   const options = props.options;
 
-  return (
-    <div className="sac-overlay">
-      <div className="sac-modal">
-        <CloseElement
-          closeElementClickHandler={props.closeElementClickHandler}
-        />
-        <Header headerOptions={options.header || {}}></Header>
-        <div className="sac-modal-body">
-          <Tooltip toolsOptions={options.tools || {}}></Tooltip>
-          <SacItems
-            data={props.data}
-            itemClickHandler={props.itemClickHandler}></SacItems>
+  if (props.isOpened) {
+    return (
+      <div className="sac-overlay">
+        <div className="sac-modal">
+          <CloseElement
+            closeElementClickHandler={props.closeElementClickHandler}
+          />
+          <Header headerOptions={options.header || {}}></Header>
+          <div className="sac-modal-body">
+            <Tooltip toolsOptions={options.tools || {}}></Tooltip>
+            <SacItems
+              data={props.data}
+              itemClickHandler={props.itemClickHandler}></SacItems>
+          </div>
+          <Footer
+            modalOptions={options.modal}
+            footerOptions={options.footer}></Footer>
         </div>
-        <Footer
-          modalOptions={options.modal}
-          footerOptions={options.footer}></Footer>
       </div>
-    </div>
-  );
+    );
+  }
+  return null;
 };
 
 export default SacOverlay;

@@ -45,12 +45,26 @@ export interface ISacOptFooterButton {
   text?: string;
   className?: string;
   visible?: boolean;
+  callback?: (
+    selectionItem: ISelectionItem,
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => any;
 }
 
 export interface ISacOptEvents {
   selectionCallback?: (selectionItem?: ISelectionItem) => any;
   modalBeforeCloseCallback?: (selectionItem?: ISelectionItem) => any;
   modalAfterCloseCallback?: (selectionItem?: ISelectionItem) => any;
+}
+
+export interface IFooterButtonsActions {
+  btnSelect_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => any;
+  btnCancel_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => any;
+  btnSelectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => any;
+  btnInvertSelection_clickHandler: (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => any;
+  btnDeselectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => any;
 }
 
 export interface ISacItem {
@@ -67,8 +81,9 @@ export interface ISelectionItem {
 }
 
 const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
-  const options = defaultsDeep({}, props.options, defaultOptions);
+  const options: ISacOptions = defaultsDeep({}, props.options, defaultOptions);
   const modal = options.modal || {};
+  const footer = options.footer || {};
 
   const [isOpened, setIsOpened] = useState<boolean>(modal.opened || false);
   const [selectedItems, setSelectedItems] = useState<ISacItem[]>([]);
@@ -102,23 +117,80 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
     setSelectedItems(newSelectedItems);
   };
 
-  const renderSacOverlay = (): JSX.Element | null => {
-    if (isOpened) {
-      return (
-        <SacOverlay
-          data={props.data}
-          options={options}
-          closeElementClickHandler={closeElementClickHandler}
-          itemClickHandler={itemClickHandler}></SacOverlay>
-      );
-    }
-    return null;
+  const footerButtonsActions: IFooterButtonsActions = {
+    btnSelect_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      const callback = (footer.btnSelect || {}).callback;
+      if (callback) {
+        callback(
+          {
+            allSelected: false,
+            selectedItems: [],
+          },
+          e
+        );
+      }
+    },
+    btnCancel_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      const callback = (footer.btnCancel || {}).callback;
+      if (callback) {
+        callback(
+          {
+            allSelected: false,
+            selectedItems: [],
+          },
+          e
+        );
+      }
+    },
+    btnSelectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      const callback = (footer.btnSelectAll || {}).callback;
+      if (callback) {
+        callback(
+          {
+            allSelected: false,
+            selectedItems: [],
+          },
+          e
+        );
+      }
+    },
+    btnInvertSelection_clickHandler: (
+      e: React.MouseEvent<HTMLButtonElement>
+    ) => {
+      const callback = (footer.btnInvertSelection || {}).callback;
+      if (callback) {
+        callback(
+          {
+            allSelected: false,
+            selectedItems: [],
+          },
+          e
+        );
+      }
+    },
+    btnDeselectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      const callback = (footer.btnDeselectAll || {}).callback;
+      if (callback) {
+        callback(
+          {
+            allSelected: false,
+            selectedItems: [],
+          },
+          e
+        );
+      }
+    },
   };
 
   return (
     <React.Fragment>
       <SacButton mainButtonClickHanlder={mainButtonClickHanlder}></SacButton>
-      {renderSacOverlay()}
+      <SacOverlay
+        isOpened={isOpened}
+        data={props.data}
+        options={options}
+        closeElementClickHandler={closeElementClickHandler}
+        itemClickHandler={itemClickHandler}></SacOverlay>
     </React.Fragment>
   );
 };

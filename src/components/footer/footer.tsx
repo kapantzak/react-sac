@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { ISacOptModal, ISacOptFooter } from "../sac/sac";
+import SacButtonsSelection from "../sacButtonsSelection/sacButtonsSelection";
 import Button from "../button/button";
 import "./footer.css";
 
@@ -9,27 +10,22 @@ export interface IFooterProps {
 }
 
 const Footer: FunctionComponent<IFooterProps> = (props: IFooterProps) => {
-  const isMultiselect = (props.modalOptions || {}).multiSelect === true;
+  const modalOptions = props.modalOptions || {};
+  const isMultiselect = modalOptions.multiSelect === true;
+  const footerOptions = props.footerOptions || {};
 
-  const selectClickHanlder = () => {
-    alert("Select");
-  };
-
-  const renderSelectionButtons = () => {
-    if (isMultiselect) {
-      return (
-        <div className="sac-footer-buttons-selection">
-          <Button text="Select all" clickHandler={selectClickHanlder}></Button>
-          <Button
-            text="Invert selection"
-            clickHandler={selectClickHanlder}></Button>
-          <Button
-            text="Deselect all"
-            clickHandler={selectClickHanlder}></Button>
-        </div>
+  const selectClickHanlder = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log("Select");
+    const callback = (footerOptions.btnSelect || {}).callback;
+    if (callback) {
+      callback(
+        {
+          allSelected: false,
+          selectedItems: [],
+        },
+        e
       );
     }
-    return null;
   };
 
   return (
@@ -38,10 +34,16 @@ const Footer: FunctionComponent<IFooterProps> = (props: IFooterProps) => {
         className={`sac-footer-buttons-holder ${
           isMultiselect ? "sac-footer-multiselect" : "sac-footer-singleselect"
         }`}>
-        {renderSelectionButtons()}
+        <SacButtonsSelection
+          modalOptions={modalOptions}
+          footerOptions={footerOptions}></SacButtonsSelection>
         <div className="sac-footer-buttons-actions">
-          <Button text="OK" clickHandler={selectClickHanlder}></Button>
-          <Button text="Cancel" clickHandler={selectClickHanlder}></Button>
+          <Button
+            buttonOptions={footerOptions.btnSelect || {}}
+            clickHandler={selectClickHanlder}></Button>
+          <Button
+            buttonOptions={footerOptions.btnCancel || {}}
+            clickHandler={selectClickHanlder}></Button>
         </div>
       </div>
     </footer>

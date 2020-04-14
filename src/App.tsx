@@ -1,5 +1,9 @@
 import React from "react";
-import Sac, { ISacItem, ISacOptions } from "./components/sac/sac";
+import Sac, {
+  ISacItem,
+  ISacOptions,
+  ISelectionItem,
+} from "./components/sac/sac";
 import "./App.css";
 
 const data: ISacItem[] = [
@@ -34,8 +38,20 @@ const options: ISacOptions = {
     modalTitle: "My title",
   },
   modal: {
-    multiSelect: false,
+    // opened: true,
+    // multiSelect: false,
     //closeModalOnEscapeKey: true,
+  },
+  footer: {
+    btnSelect: {
+      callback: (
+        sel: ISelectionItem,
+        e: React.MouseEvent<HTMLButtonElement>
+      ) => {
+        console.log(sel);
+        console.log(e.currentTarget);
+      },
+    },
   },
 };
 

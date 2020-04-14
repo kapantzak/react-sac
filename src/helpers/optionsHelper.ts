@@ -12,4 +12,26 @@ export const defaultOptions: ISacOptions = {
   tools: {
     defaultSearchType: "exists",
   },
+  footer: {
+    btnSelect: {
+      text: "OK",
+      visible: true,
+    },
+    btnCancel: {
+      text: "Cancel",
+      visible: true,
+    },
+    btnSelectAll: {
+      text: "Select all",
+      visible: true,
+    },
+    btnInvertSelection: {
+      text: "Invert selection",
+      visible: true,
+    },
+    btnDeselectAll: {
+      text: "Deselect all",
+      visible: true,
+    },
+  },
 };
