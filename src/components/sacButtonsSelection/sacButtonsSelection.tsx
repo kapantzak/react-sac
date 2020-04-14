@@ -1,45 +1,33 @@
 import React, { FunctionComponent } from "react";
-import { ISacOptModal, ISacOptFooter } from "../sac/sac";
+import { ISacOptModal, ISacOptFooter, IFooterButtonsActions } from "../sac/sac";
 import Button from "../button/button";
 import "./sacButtonsSelection.css";
 
 export interface ISacButtonsSelectionProps {
-  modalOptions?: ISacOptModal;
-  footerOptions?: ISacOptFooter;
+  modalOptions: ISacOptModal;
+  footerOptions: ISacOptFooter;
+  footerButtonsActions: IFooterButtonsActions;
 }
 
 const SacButtonsSelection: FunctionComponent<ISacButtonsSelectionProps> = (
   props: ISacButtonsSelectionProps
 ) => {
-  const isMultiselect = (props.modalOptions || {}).multiSelect === true;
+  const isMultiselect = props.modalOptions.multiSelect === true;
   const footerOptions = props.footerOptions || {};
-
-  const selectClickHanlder = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log("Select");
-    const callback = (footerOptions.btnSelect || {}).callback;
-    if (callback) {
-      callback(
-        {
-          allSelected: false,
-          selectedItems: [],
-        },
-        e
-      );
-    }
-  };
+  const actions = props.footerButtonsActions;
 
   if (isMultiselect) {
     return (
       <div className="sac-footer-buttons-selection">
         <Button
           buttonOptions={footerOptions.btnSelectAll || {}}
-          clickHandler={selectClickHanlder}></Button>
+          clickHandler={actions.btnSelectAll_clickHandler}></Button>
         <Button
           buttonOptions={footerOptions.btnInvertSelection || {}}
-          clickHandler={selectClickHanlder}></Button>
+          clickHandler={actions.btnInvertSelection_clickHandler}></Button>
         <Button
           buttonOptions={footerOptions.btnDeselectAll || {}}
-          clickHandler={selectClickHanlder}></Button>
+          clickHandler={actions.btnDeselectAll_clickHandler}></Button>
       </div>
     );
   }

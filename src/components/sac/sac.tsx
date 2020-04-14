@@ -190,7 +190,8 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
         data={props.data}
         options={options}
         closeElementClickHandler={closeElementClickHandler}
-        itemClickHandler={itemClickHandler}></SacOverlay>
+        itemClickHandler={itemClickHandler}
+        footerButtonsActions={footerButtonsActions}></SacOverlay>
     </React.Fragment>
   );
 };

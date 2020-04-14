@@ -1,32 +1,20 @@
 import React, { FunctionComponent } from "react";
-import { ISacOptModal, ISacOptFooter } from "../sac/sac";
+import { ISacOptModal, ISacOptFooter, IFooterButtonsActions } from "../sac/sac";
 import SacButtonsSelection from "../sacButtonsSelection/sacButtonsSelection";
 import Button from "../button/button";
 import "./footer.css";
 
 export interface IFooterProps {
-  modalOptions?: ISacOptModal;
-  footerOptions?: ISacOptFooter;
+  modalOptions: ISacOptModal;
+  footerOptions: ISacOptFooter;
+  footerButtonsActions: IFooterButtonsActions;
 }
 
 const Footer: FunctionComponent<IFooterProps> = (props: IFooterProps) => {
   const modalOptions = props.modalOptions || {};
   const isMultiselect = modalOptions.multiSelect === true;
   const footerOptions = props.footerOptions || {};
-
-  const selectClickHanlder = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log("Select");
-    const callback = (footerOptions.btnSelect || {}).callback;
-    if (callback) {
-      callback(
-        {
-          allSelected: false,
-          selectedItems: [],
-        },
-        e
-      );
-    }
-  };
+  const actions = props.footerButtonsActions;
 
   return (
     <footer>
@@ -36,14 +24,17 @@ const Footer: FunctionComponent<IFooterProps> = (props: IFooterProps) => {
         }`}>
         <SacButtonsSelection
           modalOptions={modalOptions}
-          footerOptions={footerOptions}></SacButtonsSelection>
+          footerOptions={footerOptions}
+          footerButtonsActions={
+            props.footerButtonsActions
+          }></SacButtonsSelection>
         <div className="sac-footer-buttons-actions">
           <Button
             buttonOptions={footerOptions.btnSelect || {}}
-            clickHandler={selectClickHanlder}></Button>
+            clickHandler={actions.btnSelect_clickHandler}></Button>
           <Button
             buttonOptions={footerOptions.btnCancel || {}}
-            clickHandler={selectClickHanlder}></Button>
+            clickHandler={actions.btnCancel_clickHandler}></Button>
         </div>
       </div>
     </footer>

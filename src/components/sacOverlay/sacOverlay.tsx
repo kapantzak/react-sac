@@ -4,7 +4,7 @@ import Header from "../header/header";
 import Tooltip from "../tooltip/tooltip";
 import SacItems from "../sacItems/sacItems";
 import Footer from "../footer/footer";
-import { ISacItem, ISacOptions } from "../sac/sac";
+import { ISacItem, ISacOptions, IFooterButtonsActions } from "../sac/sac";
 import "./sacOverlay.css";
 
 export interface ISacOverlayProps {
@@ -13,6 +13,7 @@ export interface ISacOverlayProps {
   options: ISacOptions;
   closeElementClickHandler: Function;
   itemClickHandler: Function;
+  footerButtonsActions: IFooterButtonsActions;
 }
 
 const SacOverlay: FunctionComponent<ISacOverlayProps> = (
@@ -35,8 +36,9 @@ const SacOverlay: FunctionComponent<ISacOverlayProps> = (
               itemClickHandler={props.itemClickHandler}></SacItems>
           </div>
           <Footer
-            modalOptions={options.modal}
-            footerOptions={options.footer}></Footer>
+            modalOptions={options.modal || {}}
+            footerOptions={options.footer || {}}
+            footerButtonsActions={props.footerButtonsActions}></Footer>
         </div>
       </div>
     );
