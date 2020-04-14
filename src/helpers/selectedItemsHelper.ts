@@ -1,4 +1,28 @@
-import { ISacItem } from "../components/sac/sac";
+import { ISacItem, ISelectionItem } from "../components/sac/sac";
+
+export const calculateSelectionItem = (
+  data: ISacItem[],
+  selectedItems: ISacItem[]
+): ISelectionItem => {
+  let allSelected = true;
+
+  if (data.length === selectedItems.length) {
+    for (let item of data) {
+      const existsInSelected = selectedItems.find((s) => s.id === item.id);
+      if (!existsInSelected) {
+        allSelected = false;
+        break;
+      }
+    }
+  } else {
+    allSelected = false;
+  }
+
+  return {
+    allSelected,
+    selectedItems,
+  };
+};
 
 export const calculateSelectedItems = (
   item: ISacItem,
@@ -15,7 +39,7 @@ export const addUnique = (
   selectedItems: ISacItem[]
 ): ISacItem[] => {
   const copy = selectedItems.slice();
-  const i = copy.findIndex(x => x.id === item.id);
+  const i = copy.findIndex((x) => x.id === item.id);
   if (i === -1) {
     copy.push(item);
   }
@@ -28,7 +52,7 @@ export const removeById = (
 ): ISacItem[] => {
   if (selectedItems.length > 0) {
     const copy = selectedItems.slice();
-    const i = copy.findIndex(x => x.id === id);
+    const i = copy.findIndex((x) => x.id === id);
     if (i !== -1) {
       copy.splice(i, 1);
       return copy;

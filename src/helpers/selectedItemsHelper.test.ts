@@ -1,23 +1,24 @@
 import {
   calculateSelectedItems,
   addUnique,
-  removeById
+  removeById,
+  calculateSelectionItem,
 } from "./selectedItemsHelper";
-import { ISacItem } from "../components/sac/sac";
+import { ISacItem, ISelectionItem } from "../components/sac/sac";
 
 describe("addUnique()", () => {
   test("Adds the provided element to empty array", () => {
     const item: ISacItem = {
       id: "1",
-      value: "One"
+      value: "One",
     };
     const selectedItems: ISacItem[] = [];
     const actual = addUnique(item, selectedItems);
     const expectedItems = [
       {
         id: "1",
-        value: "One"
-      }
+        value: "One",
+      },
     ];
     expect(actual).toEqual(expectedItems);
   });
@@ -25,24 +26,24 @@ describe("addUnique()", () => {
   test("Adds another element to a non empty array", () => {
     const item: ISacItem = {
       id: "1",
-      value: "One"
+      value: "One",
     };
     const selectedItems: ISacItem[] = [
       {
         id: "2",
-        value: "Two"
-      }
+        value: "Two",
+      },
     ];
     const actual = addUnique(item, selectedItems);
     const expectedItems = [
       {
         id: "2",
-        value: "Two"
+        value: "Two",
       },
       {
         id: "1",
-        value: "One"
-      }
+        value: "One",
+      },
     ];
     expect(actual).toEqual(expectedItems);
   });
@@ -50,20 +51,20 @@ describe("addUnique()", () => {
   test("Doen not add an item with the same id with an existing item", () => {
     const item: ISacItem = {
       id: "1",
-      value: "One"
+      value: "One",
     };
     const selectedItems: ISacItem[] = [
       {
         id: "1",
-        value: "One existing"
-      }
+        value: "One existing",
+      },
     ];
     const actual = addUnique(item, selectedItems);
     const expectedItems = [
       {
         id: "1",
-        value: "One existing"
-      }
+        value: "One existing",
+      },
     ];
     expect(actual).toEqual(expectedItems);
   });
@@ -76,68 +77,68 @@ describe("removeById()", () => {
       selectedItems: [
         {
           id: "1",
-          value: "One"
+          value: "One",
         },
         {
           id: "2",
-          value: "Two"
-        }
+          value: "Two",
+        },
       ],
       expectedItems: [
         {
           id: "2",
-          value: "Two"
-        }
-      ]
+          value: "Two",
+        },
+      ],
     },
     {
       id: "2",
       selectedItems: [
         {
           id: "1",
-          value: "One"
+          value: "One",
         },
         {
           id: "2",
-          value: "Two"
-        }
+          value: "Two",
+        },
       ],
       expectedItems: [
         {
           id: "1",
-          value: "One"
-        }
-      ]
+          value: "One",
+        },
+      ],
     },
     {
       id: "3",
       selectedItems: [
         {
           id: "1",
-          value: "One"
+          value: "One",
         },
         {
           id: "2",
-          value: "Two"
-        }
+          value: "Two",
+        },
       ],
       expectedItems: [
         {
           id: "1",
-          value: "One"
+          value: "One",
         },
         {
           id: "2",
-          value: "Two"
-        }
-      ]
+          value: "Two",
+        },
+      ],
     },
     {
       id: "1",
       selectedItems: [],
-      expectedItems: []
-    }
-  ])("Remove id %o", x => {
+      expectedItems: [],
+    },
+  ])("Remove id %o", (x) => {
     const actual = removeById(x.id, x.selectedItems);
     expect(actual).toEqual(x.expectedItems);
   });
@@ -149,14 +150,14 @@ describe("calculateSelectedItems()", () => {
     const item: ISacItem = {
       id: "1",
       value: "One",
-      selected: true
+      selected: true,
     };
     const expected: ISacItem[] = [
       {
         id: "1",
         value: "One",
-        selected: true
-      }
+        selected: true,
+      },
     ];
     const actual = calculateSelectedItems(item, selectedItems);
     expect(actual).toEqual(expected);
@@ -167,27 +168,97 @@ describe("calculateSelectedItems()", () => {
       {
         id: "1",
         value: "One",
-        selected: true
+        selected: true,
       },
       {
         id: "2",
         value: "Two",
-        selected: true
-      }
+        selected: true,
+      },
     ];
     const item: ISacItem = {
       id: "1",
       value: "One",
-      selected: false
+      selected: false,
     };
     const expected: ISacItem[] = [
       {
         id: "2",
         value: "Two",
-        selected: true
-      }
+        selected: true,
+      },
     ];
     const actual = calculateSelectedItems(item, selectedItems);
+    expect(actual).toEqual(expected);
+  });
+});
+
+describe("calculateSelectionItem()", () => {
+  test("Returns all selected item", () => {
+    const data: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+      },
+      {
+        id: "2",
+        value: "Two",
+      },
+    ];
+    const selectedItems: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+      },
+      {
+        id: "2",
+        value: "Two",
+      },
+    ];
+    const actual = calculateSelectionItem(data, selectedItems);
+    const expected: ISelectionItem = {
+      allSelected: true,
+      selectedItems: [
+        {
+          id: "1",
+          value: "One",
+        },
+        {
+          id: "2",
+          value: "Two",
+        },
+      ],
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  test("Returns one selected item", () => {
+    const data: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+      },
+      {
+        id: "2",
+        value: "Two",
+      },
+    ];
+    const selectedItems: ISacItem[] = [
+      {
+        id: "2",
+        value: "Two",
+      },
+    ];
+    const actual = calculateSelectionItem(data, selectedItems);
+    const expected: ISelectionItem = {
+      allSelected: false,
+      selectedItems: [
+        {
+          id: "2",
+          value: "Two",
+        },
+      ],
+    };
     expect(actual).toEqual(expected);
   });
 });

@@ -1,5 +1,8 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import { calculateSelectedItems } from "../../helpers/selectedItemsHelper";
+import {
+  calculateSelectedItems,
+  calculateSelectionItem,
+} from "../../helpers/selectedItemsHelper";
 import SacButton from "../sacButton/sacButton";
 import SacOverlay from "../sacOverlay/sacOverlay";
 import { defaultOptions } from "../../helpers/optionsHelper";
@@ -117,68 +120,43 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
     setSelectedItems(newSelectedItems);
   };
 
+  const applyCallback = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    callback?: (
+      selItem: ISelectionItem,
+      e: React.MouseEvent<HTMLButtonElement>
+    ) => any
+  ) => {
+    if (callback) {
+      const selItem = calculateSelectionItem(props.data, selectedItems);
+      callback(selItem, e);
+    }
+  };
+
   const footerButtonsActions: IFooterButtonsActions = {
     btnSelect_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      setIsOpened(false);
       const callback = (footer.btnSelect || {}).callback;
-      if (callback) {
-        callback(
-          {
-            allSelected: false,
-            selectedItems: [],
-          },
-          e
-        );
-      }
+      applyCallback(e, callback);
     },
     btnCancel_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      setIsOpened(false);
       const callback = (footer.btnCancel || {}).callback;
-      if (callback) {
-        callback(
-          {
-            allSelected: false,
-            selectedItems: [],
-          },
-          e
-        );
-      }
+      applyCallback(e, callback);
     },
     btnSelectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
       const callback = (footer.btnSelectAll || {}).callback;
-      if (callback) {
-        callback(
-          {
-            allSelected: false,
-            selectedItems: [],
-          },
-          e
-        );
-      }
+      applyCallback(e, callback);
     },
     btnInvertSelection_clickHandler: (
       e: React.MouseEvent<HTMLButtonElement>
     ) => {
       const callback = (footer.btnInvertSelection || {}).callback;
-      if (callback) {
-        callback(
-          {
-            allSelected: false,
-            selectedItems: [],
-          },
-          e
-        );
-      }
+      applyCallback(e, callback);
     },
     btnDeselectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
       const callback = (footer.btnDeselectAll || {}).callback;
-      if (callback) {
-        callback(
-          {
-            allSelected: false,
-            selectedItems: [],
-          },
-          e
-        );
-      }
+      applyCallback(e, callback);
     },
   };
 
