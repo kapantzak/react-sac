@@ -1,18 +1,21 @@
 import React, { FunctionComponent } from "react";
+import { ISacOptFooterButton } from "../sac/sac";
 
 export interface IButtonProps {
-  text?: string;
-  className?: string;
-  clickHandler: () => any;
+  buttonOptions: ISacOptFooterButton;
+  clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => any;
 }
 
 const Button: FunctionComponent<IButtonProps> = (props: IButtonProps) => {
+  const opt = props.buttonOptions || {};
+  const className = opt.className || "";
+  const text = opt.text || "";
   return (
     <button
-      className={`sac-footer-button ${props.className || ""}`}
+      className={`sac-footer-button ${className}`}
       type="button"
       onClick={props.clickHandler}>
-      {props.text || ""}
+      {text}
     </button>
   );
 };

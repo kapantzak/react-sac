@@ -1,9 +1,12 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
-import { calculateSelectedItems } from "../../helpers/selectedItemsHelper";
+import {
+  calculateSelectedItems,
+  calculateSelectionItem,
+} from "../../helpers/selectedItemsHelper";
 import SacButton from "../sacButton/sacButton";
 import SacOverlay from "../sacOverlay/sacOverlay";
 import { defaultOptions } from "../../helpers/optionsHelper";
-import assign from "lodash.assign";
+import defaultsDeep from "lodash.defaultsdeep";
 import "./sac.css";
 
 export interface ISacProps {
@@ -45,12 +48,26 @@ export interface ISacOptFooterButton {
   text?: string;
   className?: string;
   visible?: boolean;
+  callback?: (
+    selectionItem: ISelectionItem,
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => any;
 }
 
 export interface ISacOptEvents {
   selectionCallback?: (selectionItem?: ISelectionItem) => any;
   modalBeforeCloseCallback?: (selectionItem?: ISelectionItem) => any;
   modalAfterCloseCallback?: (selectionItem?: ISelectionItem) => any;
+}
+
+export interface IFooterButtonsActions {
+  btnSelect_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => any;
+  btnCancel_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => any;
+  btnSelectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => any;
+  btnInvertSelection_clickHandler: (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => any;
+  btnDeselectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => any;
 }
 
 export interface ISacItem {
@@ -67,8 +84,9 @@ export interface ISelectionItem {
 }
 
 const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
-  const options = assign(defaultOptions, props.options);
+  const options: ISacOptions = defaultsDeep({}, props.options, defaultOptions);
   const modal = options.modal || {};
+  const footer = options.footer || {};
 
   const [isOpened, setIsOpened] = useState<boolean>(modal.opened || false);
   const [selectedItems, setSelectedItems] = useState<ISacItem[]>([]);
@@ -102,23 +120,56 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
     setSelectedItems(newSelectedItems);
   };
 
-  const renderSacOverlay = (): JSX.Element | null => {
-    if (isOpened) {
-      return (
-        <SacOverlay
-          data={props.data}
-          options={options}
-          closeElementClickHandler={closeElementClickHandler}
-          itemClickHandler={itemClickHandler}></SacOverlay>
-      );
+  const applyCallback = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    callback?: (
+      selItem: ISelectionItem,
+      e: React.MouseEvent<HTMLButtonElement>
+    ) => any
+  ) => {
+    if (callback) {
+      const selItem = calculateSelectionItem(props.data, selectedItems);
+      callback(selItem, e);
     }
-    return null;
+  };
+
+  const footerButtonsActions: IFooterButtonsActions = {
+    btnSelect_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      setIsOpened(false);
+      const callback = (footer.btnSelect || {}).callback;
+      applyCallback(e, callback);
+    },
+    btnCancel_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      setIsOpened(false);
+      const callback = (footer.btnCancel || {}).callback;
+      applyCallback(e, callback);
+    },
+    btnSelectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      const callback = (footer.btnSelectAll || {}).callback;
+      applyCallback(e, callback);
+    },
+    btnInvertSelection_clickHandler: (
+      e: React.MouseEvent<HTMLButtonElement>
+    ) => {
+      const callback = (footer.btnInvertSelection || {}).callback;
+      applyCallback(e, callback);
+    },
+    btnDeselectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      const callback = (footer.btnDeselectAll || {}).callback;
+      applyCallback(e, callback);
+    },
   };
 
   return (
     <React.Fragment>
       <SacButton mainButtonClickHanlder={mainButtonClickHanlder}></SacButton>
-      {renderSacOverlay()}
+      <SacOverlay
+        isOpened={isOpened}
+        data={props.data}
+        options={options}
+        closeElementClickHandler={closeElementClickHandler}
+        itemClickHandler={itemClickHandler}
+        footerButtonsActions={footerButtonsActions}></SacOverlay>
     </React.Fragment>
   );
 };
