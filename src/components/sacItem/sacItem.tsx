@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 import SacItemToggleIcon from "../sacItemToggleIcon/sacItemToggleIcon";
-import { ISacItem } from "../sac/sac";
 import SacItemSelectedIcon from "../sacItemSelectedIcon/sacItemSelectedIcon";
+import { ISacItem } from "../sac/sac";
 import "./sacItem.css";
 
 export interface ISacItemProps {
@@ -47,7 +47,7 @@ const SacItem: FunctionComponent<ISacItemProps> = (props: ISacItemProps) => {
   return (
     <div
       key={props.item.id}
-      className={`sac-item ${isSelected ? "sac-item-selected" : ""}`}>
+      className={`sac-item ${props.item.selected ? "sac-item-selected" : ""}`}>
       <div className="sac-item-label">
         <SacItemToggleIcon
           expanded={isExpanded}
@@ -56,7 +56,8 @@ const SacItem: FunctionComponent<ISacItemProps> = (props: ISacItemProps) => {
         />
         <div className="sac-item-label-text" onClick={labelTextClickHandler}>
           <span>{props.item.value}</span>
-          <SacItemSelectedIcon isSelected={isSelected}></SacItemSelectedIcon>
+          <SacItemSelectedIcon
+            isSelected={props.item.selected || false}></SacItemSelectedIcon>
         </div>
       </div>
       {children}
