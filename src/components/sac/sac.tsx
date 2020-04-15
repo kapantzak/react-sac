@@ -167,7 +167,7 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
       <SacButton mainButtonClickHanlder={mainButtonClickHanlder}></SacButton>
       <SacOverlay
         isOpened={isOpened}
-        data={props.data}
+        data={dataSelection}
         options={options}
         closeElementClickHandler={closeElementClickHandler}
         itemClickHandler={itemClickHandler}

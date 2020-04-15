@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 import SacItemToggleIcon from "../sacItemToggleIcon/sacItemToggleIcon";
 import { ISacItem } from "../sac/sac";
+import SacItemSelectedIcon from "../sacItemSelectedIcon/sacItemSelectedIcon";
 import "./sacItem.css";
 
 export interface ISacItemProps {
@@ -54,7 +55,8 @@ const SacItem: FunctionComponent<ISacItemProps> = (props: ISacItemProps) => {
           iconClickHandler={iconClickHandler}
         />
         <div className="sac-item-label-text" onClick={labelTextClickHandler}>
-          {props.item.value}
+          <span>{props.item.value}</span>
+          <SacItemSelectedIcon isSelected={isSelected}></SacItemSelectedIcon>
         </div>
       </div>
       {children}
