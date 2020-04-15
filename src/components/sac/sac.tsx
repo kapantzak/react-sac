@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import {
-  calculateSelectedItems,
+  calculateDataSelection,
   calculateSelectionItem,
 } from "../../helpers/selectedItemsHelper";
 import SacButton from "../sacButton/sacButton";
@@ -89,7 +89,9 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
   const footer = options.footer || {};
 
   const [isOpened, setIsOpened] = useState<boolean>(modal.opened || false);
-  const [selectedItems, setSelectedItems] = useState<ISacItem[]>([]);
+  const [dataSelection, setDataSelection] = useState<ISacItem[]>(
+    props.data.slice()
+  );
 
   const escKeyDownHandler = (e: KeyboardEvent): void => {
     if (e.key === "Escape") {
@@ -116,8 +118,8 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
   };
 
   const itemClickHandler = (item: ISacItem) => {
-    const newSelectedItems = calculateSelectedItems(item, selectedItems);
-    setSelectedItems(newSelectedItems);
+    const newDataSelection = calculateDataSelection(item, dataSelection);
+    setDataSelection(newDataSelection);
   };
 
   const applyCallback = (
@@ -128,7 +130,7 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
     ) => any
   ) => {
     if (callback) {
-      const selItem = calculateSelectionItem(props.data, selectedItems);
+      const selItem = calculateSelectionItem(dataSelection);
       callback(selItem, e);
     }
   };

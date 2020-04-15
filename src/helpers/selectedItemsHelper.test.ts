@@ -1,179 +1,457 @@
 import {
-  calculateSelectedItems,
-  addUnique,
-  removeById,
   calculateSelectionItem,
+  getItemById,
+  setItemSelection,
+  calculateDataSelection,
 } from "./selectedItemsHelper";
 import { ISacItem, ISelectionItem } from "../components/sac/sac";
 
-describe("addUnique()", () => {
-  test("Adds the provided element to empty array", () => {
-    const item: ISacItem = {
-      id: "1",
-      value: "One",
-    };
-    const selectedItems: ISacItem[] = [];
-    const actual = addUnique(item, selectedItems);
-    const expectedItems = [
+describe("calculateSelectionItem()", () => {
+  test("Returns all selected items", () => {
+    const data: ISacItem[] = [
       {
         id: "1",
         value: "One",
+        selected: true,
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: true,
       },
     ];
-    expect(actual).toEqual(expectedItems);
+    const actual = calculateSelectionItem(data);
+    const expected: ISelectionItem = {
+      allSelected: true,
+      selectedItems: [
+        {
+          id: "1",
+          value: "One",
+          selected: true,
+        },
+        {
+          id: "2",
+          value: "Two",
+          selected: true,
+        },
+      ],
+    };
+    expect(actual).toEqual(expected);
   });
 
-  test("Adds another element to a non empty array", () => {
-    const item: ISacItem = {
-      id: "1",
-      value: "One",
-    };
-    const selectedItems: ISacItem[] = [
-      {
-        id: "2",
-        value: "Two",
-      },
-    ];
-    const actual = addUnique(item, selectedItems);
-    const expectedItems = [
-      {
-        id: "2",
-        value: "Two",
-      },
+  test("Returns only selected items", () => {
+    const data: ISacItem[] = [
       {
         id: "1",
         value: "One",
+        selected: false,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: false,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: true,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: true,
       },
     ];
-    expect(actual).toEqual(expectedItems);
-  });
-
-  test("Doen not add an item with the same id with an existing item", () => {
-    const item: ISacItem = {
-      id: "1",
-      value: "One",
+    const actual = calculateSelectionItem(data);
+    const expected: ISelectionItem = {
+      allSelected: false,
+      selectedItems: [
+        {
+          id: "1.2",
+          value: "One.two",
+          selected: true,
+        },
+        {
+          id: "2",
+          value: "Two",
+          selected: true,
+        },
+      ],
     };
-    const selectedItems: ISacItem[] = [
-      {
-        id: "1",
-        value: "One existing",
-      },
-    ];
-    const actual = addUnique(item, selectedItems);
-    const expectedItems = [
-      {
-        id: "1",
-        value: "One existing",
-      },
-    ];
-    expect(actual).toEqual(expectedItems);
+    expect(actual).toEqual(expected);
   });
-});
 
-describe("removeById()", () => {
-  test.each([
-    {
-      id: "1",
+  test("Returns all selected nested items", () => {
+    const data: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        selected: true,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: true,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: true,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: true,
+      },
+    ];
+    const actual = calculateSelectionItem(data);
+    const expected: ISelectionItem = {
+      allSelected: true,
       selectedItems: [
         {
           id: "1",
           value: "One",
+          selected: true,
+          children: [
+            {
+              id: "1.1",
+              value: "One.one",
+              selected: true,
+            },
+            {
+              id: "1.2",
+              value: "One.two",
+              selected: true,
+            },
+          ],
         },
         {
           id: "2",
           value: "Two",
+          selected: true,
         },
       ],
-      expectedItems: [
-        {
-          id: "2",
-          value: "Two",
-        },
-      ],
-    },
-    {
-      id: "2",
-      selectedItems: [
-        {
-          id: "1",
-          value: "One",
-        },
-        {
-          id: "2",
-          value: "Two",
-        },
-      ],
-      expectedItems: [
-        {
-          id: "1",
-          value: "One",
-        },
-      ],
-    },
-    {
-      id: "3",
-      selectedItems: [
-        {
-          id: "1",
-          value: "One",
-        },
-        {
-          id: "2",
-          value: "Two",
-        },
-      ],
-      expectedItems: [
-        {
-          id: "1",
-          value: "One",
-        },
-        {
-          id: "2",
-          value: "Two",
-        },
-      ],
-    },
-    {
-      id: "1",
+    };
+    expect(actual).toEqual(expected);
+  });
+
+  test("Returns empty array", () => {
+    const data: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        selected: false,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: false,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: false,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: false,
+      },
+    ];
+    const actual = calculateSelectionItem(data);
+    const expected: ISelectionItem = {
+      allSelected: false,
       selectedItems: [],
-      expectedItems: [],
-    },
-  ])("Remove id %o", (x) => {
-    const actual = removeById(x.id, x.selectedItems);
-    expect(actual).toEqual(x.expectedItems);
+    };
+    expect(actual).toEqual(expected);
   });
 });
 
-describe("calculateSelectedItems()", () => {
-  test("Adds a newly selected item", () => {
-    const selectedItems: ISacItem[] = [];
+describe("getItemById()", () => {
+  test("Returns the expected item", () => {
+    const collection: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+      },
+      {
+        id: "2",
+        value: "Two",
+      },
+    ];
+    const expected = {
+      id: "1",
+      value: "One",
+    };
+    const actual = getItemById("1", collection);
+    expect(actual).toEqual(expected);
+  });
+
+  test("Returns the expected child item", () => {
+    const collection: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            children: [
+              {
+                id: "1.1.1",
+                value: "One.one.one",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+      },
+    ];
+    const expected = {
+      id: "1.1",
+      value: "One.one",
+      children: [
+        {
+          id: "1.1.1",
+          value: "One.one.one",
+        },
+      ],
+    };
+    const actual = getItemById("1.1", collection);
+    expect(actual).toEqual(expected);
+  });
+
+  test("Returns the second nested object", () => {
+    const collection: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            children: [
+              {
+                id: "1.1.1",
+                value: "One.one.one",
+              },
+            ],
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+      },
+    ];
+    const expected = {
+      id: "1.2",
+      value: "One.two",
+    };
+    const actual = getItemById("1.2", collection);
+    expect(actual).toEqual(expected);
+  });
+
+  test("Returns the second object", () => {
+    const collection: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            children: [
+              {
+                id: "1.1.1",
+                value: "One.one.one",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+      },
+    ];
+    const expected = {
+      id: "2",
+      value: "Two",
+    };
+    const actual = getItemById("2", collection);
+    expect(actual).toEqual(expected);
+  });
+
+  test("Returns null", () => {
+    const collection: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+      },
+      {
+        id: "2",
+        value: "Two",
+      },
+    ];
+    const actual = getItemById("3", collection);
+    expect(actual).toBeNull();
+  });
+});
+
+describe("setItemSelection()", () => {
+  test("Mutates the provided object as expected", () => {
+    const collection: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        selected: false,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: false,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: false,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: false,
+      },
+    ];
+    const item = getItemById("1", collection);
+    if (item) {
+      setItemSelection(item, true);
+    }
+    const expected = [
+      {
+        id: "1",
+        value: "One",
+        selected: true,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: true,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: true,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: false,
+      },
+    ];
+    expect(collection).toEqual(expected);
+  });
+});
+
+describe("calculateDataSelection()", () => {
+  test("Sets object tree as selected", () => {
+    const dataSelection: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        selected: false,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: false,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: false,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: false,
+      },
+    ];
     const item: ISacItem = {
       id: "1",
       value: "One",
       selected: true,
     };
-    const expected: ISacItem[] = [
+    const expected = [
       {
         id: "1",
         value: "One",
         selected: true,
-      },
-    ];
-    const actual = calculateSelectedItems(item, selectedItems);
-    expect(actual).toEqual(expected);
-  });
-
-  test("Removes a deselected item", () => {
-    const selectedItems: ISacItem[] = [
-      {
-        id: "1",
-        value: "One",
-        selected: true,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: true,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: true,
+          },
+        ],
       },
       {
         id: "2",
         value: "Two",
+        selected: false,
+      },
+    ];
+    const actual = calculateDataSelection(item, dataSelection);
+    expect(actual).toEqual(expected);
+  });
+
+  test("Deselects object tree", () => {
+    const dataSelection: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
         selected: true,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: true,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: true,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: false,
       },
     ];
     const item: ISacItem = {
@@ -181,84 +459,147 @@ describe("calculateSelectedItems()", () => {
       value: "One",
       selected: false,
     };
-    const expected: ISacItem[] = [
+    const expected = [
+      {
+        id: "1",
+        value: "One",
+        selected: false,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: false,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: false,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: false,
+      },
+    ];
+    const actual = calculateDataSelection(item, dataSelection);
+    expect(actual).toEqual(expected);
+  });
+
+  test("Deselects specific object", () => {
+    const dataSelection: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        selected: true,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: true,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: true,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: false,
+      },
+    ];
+    const item: ISacItem = {
+      id: "1.1",
+      value: "One",
+      selected: false,
+    };
+    const expected = [
+      {
+        id: "1",
+        value: "One",
+        selected: true,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: false,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: true,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: false,
+      },
+    ];
+    const actual = calculateDataSelection(item, dataSelection);
+    expect(actual).toEqual(expected);
+  });
+
+  test("Deselects second object", () => {
+    const dataSelection: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        selected: true,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: true,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: true,
+          },
+        ],
+      },
       {
         id: "2",
         value: "Two",
         selected: true,
       },
     ];
-    const actual = calculateSelectedItems(item, selectedItems);
-    expect(actual).toEqual(expected);
-  });
-});
-
-describe("calculateSelectionItem()", () => {
-  test("Returns all selected item", () => {
-    const data: ISacItem[] = [
-      {
-        id: "1",
-        value: "One",
-      },
-      {
-        id: "2",
-        value: "Two",
-      },
-    ];
-    const selectedItems: ISacItem[] = [
-      {
-        id: "1",
-        value: "One",
-      },
-      {
-        id: "2",
-        value: "Two",
-      },
-    ];
-    const actual = calculateSelectionItem(data, selectedItems);
-    const expected: ISelectionItem = {
-      allSelected: true,
-      selectedItems: [
-        {
-          id: "1",
-          value: "One",
-        },
-        {
-          id: "2",
-          value: "Two",
-        },
-      ],
+    const item: ISacItem = {
+      id: "2",
+      value: "Two",
+      selected: false,
     };
-    expect(actual).toEqual(expected);
-  });
-
-  test("Returns one selected item", () => {
-    const data: ISacItem[] = [
+    const expected = [
       {
         id: "1",
         value: "One",
+        selected: true,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: true,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: true,
+          },
+        ],
       },
       {
         id: "2",
         value: "Two",
+        selected: false,
       },
     ];
-    const selectedItems: ISacItem[] = [
-      {
-        id: "2",
-        value: "Two",
-      },
-    ];
-    const actual = calculateSelectionItem(data, selectedItems);
-    const expected: ISelectionItem = {
-      allSelected: false,
-      selectedItems: [
-        {
-          id: "2",
-          value: "Two",
-        },
-      ],
-    };
+    const actual = calculateDataSelection(item, dataSelection);
     expect(actual).toEqual(expected);
   });
 });
