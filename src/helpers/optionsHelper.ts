@@ -18,7 +18,6 @@ export const defaultOptions: ISacOptions = {
     modalTitle: "Title",
   },
   tools: {
-    //defaultSearchType: "exists",
     defaultSearchItem: {
       text: "",
       type: SacItemTextSearchType.ExistsIn,

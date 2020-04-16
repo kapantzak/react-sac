@@ -2,6 +2,8 @@ import React, { FunctionComponent, useState, useEffect } from "react";
 import {
   calculateDataSelection,
   calculateSelectionItem,
+  setAllItemsSelection,
+  invertItemsSelection,
 } from "../../helpers/selectedItemsHelper";
 import SacButton from "../sacButton/sacButton";
 import SacOverlay from "../sacOverlay/sacOverlay";
@@ -36,7 +38,6 @@ export interface ISacOptHeader {
 }
 
 export interface ISacOptTools {
-  //defaultSearchType?: string;
   defaultSearchItem?: ISacItemSearch;
 }
 
@@ -99,9 +100,10 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
   const footer = options.footer || {};
 
   const [isOpened, setIsOpened] = useState<boolean>(modal.opened || false);
-  const [dataSelection, setDataSelection] = useState<ISacItem[]>(
-    props.data.slice()
-  );
+
+  let initData = JSON.parse(JSON.stringify(props.data));
+  const [dataSelection, setDataSelection] = useState<ISacItem[]>(initData);
+  const [initialData, setInitialData] = useState<ISacItem[]>(initData);
   const [itemSearch, setItemSearch] = useState<ISacItemSearch>(
     ((options || {}).tools || {}).defaultSearchItem || {
       text: "",
@@ -157,26 +159,34 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
 
   const footerButtonsActions: IFooterButtonsActions = {
     btnSelect_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      setInitialData(dataSelection);
       setIsOpened(false);
       const callback = (footer.btnSelect || {}).callback;
       applyCallback(e, callback);
     },
     btnCancel_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      setDataSelection(initialData);
       setIsOpened(false);
       const callback = (footer.btnCancel || {}).callback;
       applyCallback(e, callback);
     },
     btnSelectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      const newDataSelection = setAllItemsSelection(dataSelection, true);
+      setDataSelection(newDataSelection);
       const callback = (footer.btnSelectAll || {}).callback;
       applyCallback(e, callback);
     },
     btnInvertSelection_clickHandler: (
       e: React.MouseEvent<HTMLButtonElement>
     ) => {
+      const newDataSelection = invertItemsSelection(dataSelection);
+      setDataSelection(newDataSelection);
       const callback = (footer.btnInvertSelection || {}).callback;
       applyCallback(e, callback);
     },
     btnDeselectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      const newDataSelection = setAllItemsSelection(dataSelection, false);
+      setDataSelection(newDataSelection);
       const callback = (footer.btnDeselectAll || {}).callback;
       applyCallback(e, callback);
     },
