@@ -49,14 +49,25 @@ const options: ISacOptions = {
     //closeModalOnEscapeKey: true,
   },
   footer: {
-    btnSelect: {
-      callback: (
-        sel: ISelectionItem,
-        e: React.MouseEvent<HTMLButtonElement>
-      ) => {
-        console.log(sel);
-        console.log(e.currentTarget);
-      },
+    // btnSelect: {
+    //   callback: (
+    //     sel: ISelectionItem,
+    //     e: React.MouseEvent<HTMLButtonElement>
+    //   ) => {
+    //     console.log(sel);
+    //     console.log(e.currentTarget);
+    //   },
+    // },
+  },
+  events: {
+    selectionCallback: (selItem: ISelectionItem) => {
+      console.log(selItem);
+    },
+    modalCloseCallback: () => {
+      console.log("Close");
+    },
+    modalOpenCallback: () => {
+      console.log("Open");
     },
   },
 };

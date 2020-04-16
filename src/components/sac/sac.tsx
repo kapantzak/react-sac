@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
+import React, { FunctionComponent, useState, useEffect, useRef } from "react";
 import {
   calculateDataSelection,
   calculateSelectionItem,
@@ -60,9 +60,9 @@ export interface ISacOptFooterButton {
 }
 
 export interface ISacOptEvents {
-  selectionCallback?: (selectionItem?: ISelectionItem) => any;
-  modalBeforeCloseCallback?: (selectionItem?: ISelectionItem) => any;
-  modalAfterCloseCallback?: (selectionItem?: ISelectionItem) => any;
+  selectionCallback?: (selectionItem: ISelectionItem) => any;
+  modalOpenCallback?: (selectionItem: ISelectionItem) => any;
+  modalCloseCallback?: (selectionItem: ISelectionItem) => any;
 }
 
 export interface IFooterButtonsActions {
@@ -117,14 +117,38 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
     }
   };
 
+  const firstLoad = useRef(true);
   useEffect(() => {
-    if (modal.closeModalOnEscapeKey) {
-      document.addEventListener("keydown", escKeyDownHandler);
+    if (isOpened) {
+      if (
+        firstLoad.current === false &&
+        options &&
+        options.events &&
+        options.events.modalOpenCallback
+      ) {
+        options.events.modalOpenCallback(calculateSelectionItem(dataSelection));
+      }
 
-      return () => {
-        document.removeEventListener("keydown", escKeyDownHandler);
-      };
+      if (modal.closeModalOnEscapeKey) {
+        document.addEventListener("keydown", escKeyDownHandler);
+
+        return () => {
+          document.removeEventListener("keydown", escKeyDownHandler);
+        };
+      }
+    } else {
+      if (
+        firstLoad.current === false &&
+        options &&
+        options.events &&
+        options.events.modalCloseCallback
+      ) {
+        options.events.modalCloseCallback(
+          calculateSelectionItem(dataSelection)
+        );
+      }
     }
+    firstLoad.current = false;
   });
 
   const mainButtonClickHanlder = () => {
@@ -157,10 +181,17 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
     }
   };
 
+  const applySelectionCallback = () => {
+    if (options && options.events && options.events.selectionCallback) {
+      options.events.selectionCallback(calculateSelectionItem(dataSelection));
+    }
+  };
+
   const footerButtonsActions: IFooterButtonsActions = {
     btnSelect_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
       setInitialData(dataSelection);
       setIsOpened(false);
+      applySelectionCallback();
       const callback = (footer.btnSelect || {}).callback;
       applyCallback(e, callback);
     },
