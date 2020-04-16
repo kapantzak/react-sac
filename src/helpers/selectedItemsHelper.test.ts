@@ -3,6 +3,7 @@ import {
   getItemById,
   setItemSelection,
   calculateDataSelection,
+  setAllItemsSelection,
 } from "./selectedItemsHelper";
 import { ISacItem, ISelectionItem } from "../components/sac/sac";
 
@@ -600,6 +601,114 @@ describe("calculateDataSelection()", () => {
       },
     ];
     const actual = calculateDataSelection(item, dataSelection);
+    expect(actual).toEqual(expected);
+  });
+});
+
+describe("setAllItemsSelection()", () => {
+  test("Selects all items", () => {
+    const data: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        selected: false,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: false,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: true,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: false,
+      },
+    ];
+    const actual = setAllItemsSelection(data, true);
+    const expected: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        selected: true,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: true,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: true,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: true,
+      },
+    ];
+    expect(actual).toEqual(expected);
+  });
+
+  test("Deselects all items", () => {
+    const data: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        selected: true,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: true,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: true,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: true,
+      },
+    ];
+    const actual = setAllItemsSelection(data, false);
+    const expected: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        selected: false,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: false,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: false,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: false,
+      },
+    ];
     expect(actual).toEqual(expected);
   });
 });

@@ -38,6 +38,17 @@ export const setItemSelection = (item: ISacItem, isSelected: boolean): void => {
   }
 };
 
+export const setAllItemsSelection = (
+  data: ISacItem[],
+  isSelected: boolean
+): ISacItem[] => {
+  const copy: ISacItem[] = JSON.parse(JSON.stringify(data));
+  copy.forEach((item) => {
+    setItemSelection(item, isSelected);
+  });
+  return copy;
+};
+
 export const calculateSelectionItem = (data: ISacItem[]): ISelectionItem => {
   const collection = JSON.parse(JSON.stringify(data));
   let allSelected = true;

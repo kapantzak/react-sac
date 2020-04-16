@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState, useEffect } from "react";
 import {
   calculateDataSelection,
   calculateSelectionItem,
+  setAllItemsSelection,
 } from "../../helpers/selectedItemsHelper";
 import SacButton from "../sacButton/sacButton";
 import SacOverlay from "../sacOverlay/sacOverlay";
@@ -169,6 +170,8 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
       applyCallback(e, callback);
     },
     btnSelectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      const newDataSelection = setAllItemsSelection(dataSelection, true);
+      setDataSelection(newDataSelection);
       const callback = (footer.btnSelectAll || {}).callback;
       applyCallback(e, callback);
     },
@@ -179,6 +182,8 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
       applyCallback(e, callback);
     },
     btnDeselectAll_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      const newDataSelection = setAllItemsSelection(dataSelection, false);
+      setDataSelection(newDataSelection);
       const callback = (footer.btnDeselectAll || {}).callback;
       applyCallback(e, callback);
     },
