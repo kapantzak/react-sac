@@ -4,7 +4,12 @@ import Header from "../header/header";
 import Tooltip from "../tooltip/tooltip";
 import SacItems from "../sacItems/sacItems";
 import Footer from "../footer/footer";
-import { ISacItem, ISacOptions, IFooterButtonsActions } from "../sac/sac";
+import {
+  ISacItem,
+  ISacItemSearch,
+  ISacOptions,
+  IFooterButtonsActions,
+} from "../sac/sac";
 import "./sacOverlay.css";
 
 export interface ISacOverlayProps {
@@ -12,7 +17,9 @@ export interface ISacOverlayProps {
   data: ISacItem[];
   options: ISacOptions;
   closeElementClickHandler: Function;
+  itemSearch: ISacItemSearch;
   itemClickHandler: Function;
+  searchModeChangeHandler: (searchObj: ISacItemSearch) => any;
   footerButtonsActions: IFooterButtonsActions;
 }
 
@@ -30,9 +37,12 @@ const SacOverlay: FunctionComponent<ISacOverlayProps> = (
           />
           <Header headerOptions={options.header || {}}></Header>
           <div className="sac-modal-body">
-            <Tooltip toolsOptions={options.tools || {}}></Tooltip>
+            <Tooltip
+              toolsOptions={options.tools || {}}
+              searchModeChangeHandler={props.searchModeChangeHandler}></Tooltip>
             <SacItems
               data={props.data}
+              itemSearch={props.itemSearch}
               itemClickHandler={props.itemClickHandler}></SacItems>
           </div>
           <Footer

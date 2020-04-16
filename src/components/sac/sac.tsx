@@ -1,11 +1,14 @@
 import React, { FunctionComponent, useState, useEffect } from "react";
 import {
-  calculateSelectedItems,
+  calculateDataSelection,
   calculateSelectionItem,
 } from "../../helpers/selectedItemsHelper";
 import SacButton from "../sacButton/sacButton";
 import SacOverlay from "../sacOverlay/sacOverlay";
-import { defaultOptions } from "../../helpers/optionsHelper";
+import {
+  defaultOptions,
+  SacItemTextSearchType,
+} from "../../helpers/optionsHelper";
 import defaultsDeep from "lodash.defaultsdeep";
 import "./sac.css";
 
@@ -33,7 +36,8 @@ export interface ISacOptHeader {
 }
 
 export interface ISacOptTools {
-  defaultSearchType?: string;
+  //defaultSearchType?: string;
+  defaultSearchItem?: ISacItemSearch;
 }
 
 export interface ISacOptFooter {
@@ -75,7 +79,13 @@ export interface ISacItem {
   value: string;
   selected?: boolean;
   expanded?: boolean;
+  hidden?: boolean;
   children?: ISacItem[];
+}
+
+export interface ISacItemSearch {
+  text: string;
+  type: SacItemTextSearchType;
 }
 
 export interface ISelectionItem {
@@ -89,7 +99,15 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
   const footer = options.footer || {};
 
   const [isOpened, setIsOpened] = useState<boolean>(modal.opened || false);
-  const [selectedItems, setSelectedItems] = useState<ISacItem[]>([]);
+  const [dataSelection, setDataSelection] = useState<ISacItem[]>(
+    props.data.slice()
+  );
+  const [itemSearch, setItemSearch] = useState<ISacItemSearch>(
+    ((options || {}).tools || {}).defaultSearchItem || {
+      text: "",
+      type: SacItemTextSearchType.ExistsIn,
+    }
+  );
 
   const escKeyDownHandler = (e: KeyboardEvent): void => {
     if (e.key === "Escape") {
@@ -115,9 +133,13 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
     setIsOpened(false);
   };
 
+  const searchModeChangeHandler = (searchItem: ISacItemSearch) => {
+    setItemSearch(searchItem);
+  };
+
   const itemClickHandler = (item: ISacItem) => {
-    const newSelectedItems = calculateSelectedItems(item, selectedItems);
-    setSelectedItems(newSelectedItems);
+    const newDataSelection = calculateDataSelection(item, dataSelection);
+    setDataSelection(newDataSelection);
   };
 
   const applyCallback = (
@@ -128,7 +150,7 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
     ) => any
   ) => {
     if (callback) {
-      const selItem = calculateSelectionItem(props.data, selectedItems);
+      const selItem = calculateSelectionItem(dataSelection);
       callback(selItem, e);
     }
   };
@@ -165,10 +187,12 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
       <SacButton mainButtonClickHanlder={mainButtonClickHanlder}></SacButton>
       <SacOverlay
         isOpened={isOpened}
-        data={props.data}
+        data={dataSelection}
         options={options}
         closeElementClickHandler={closeElementClickHandler}
+        itemSearch={itemSearch}
         itemClickHandler={itemClickHandler}
+        searchModeChangeHandler={searchModeChangeHandler}
         footerButtonsActions={footerButtonsActions}></SacOverlay>
     </React.Fragment>
   );

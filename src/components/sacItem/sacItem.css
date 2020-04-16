@@ -8,9 +8,6 @@
   width: 15px;
   cursor: pointer;
 }
-.sac-item-selected {
-  background-color: orange;
-}
 .sac-item-label-text {
   display: inline-block;
   cursor: pointer;

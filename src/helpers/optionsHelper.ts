@@ -1,5 +1,13 @@
 import { ISacOptions } from "../components/sac/sac";
 
+export enum SacItemTextSearchType {
+  None,
+  ExistsIn,
+  StartsWith,
+  EndsWith,
+  Regex,
+}
+
 export const defaultOptions: ISacOptions = {
   modal: {
     multiSelect: true,
@@ -10,7 +18,11 @@ export const defaultOptions: ISacOptions = {
     modalTitle: "Title",
   },
   tools: {
-    defaultSearchType: "exists",
+    //defaultSearchType: "exists",
+    defaultSearchItem: {
+      text: "",
+      type: SacItemTextSearchType.ExistsIn,
+    },
   },
   footer: {
     btnSelect: {

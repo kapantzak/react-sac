@@ -1,10 +1,13 @@
 import React, { FunctionComponent, useState } from "react";
 import SacItemToggleIcon from "../sacItemToggleIcon/sacItemToggleIcon";
-import { ISacItem } from "../sac/sac";
+import SacItemSelectedIcon from "../sacItemSelectedIcon/sacItemSelectedIcon";
+import { ISacItem, ISacItemSearch } from "../sac/sac";
+import { showSacItemBasedOnSearch } from "../../helpers/searchItemsHelper";
 import "./sacItem.css";
 
 export interface ISacItemProps {
   item: ISacItem;
+  itemSearch: ISacItemSearch;
   itemClickHandler: Function;
 }
 
@@ -22,6 +25,7 @@ const SacItem: FunctionComponent<ISacItemProps> = (props: ISacItemProps) => {
       <SacItem
         key={x.id}
         item={x}
+        itemSearch={props.itemSearch}
         itemClickHandler={props.itemClickHandler}></SacItem>
     ));
     children = (
@@ -43,23 +47,31 @@ const SacItem: FunctionComponent<ISacItemProps> = (props: ISacItemProps) => {
     setIsExpanded(expanded);
   };
 
-  return (
-    <div
-      key={props.item.id}
-      className={`sac-item ${isSelected ? "sac-item-selected" : ""}`}>
-      <div className="sac-item-label">
-        <SacItemToggleIcon
-          expanded={isExpanded}
-          hasChildren={(props.item.children || []).length > 0}
-          iconClickHandler={iconClickHandler}
-        />
-        <div className="sac-item-label-text" onClick={labelTextClickHandler}>
-          {props.item.value}
+  const showItem = showSacItemBasedOnSearch(props.item, props.itemSearch);
+  if (showItem && !props.item.hidden) {
+    return (
+      <div
+        key={props.item.id}
+        className={`sac-item ${
+          props.item.selected ? "sac-item-selected" : ""
+        }`}>
+        <div className="sac-item-label">
+          <SacItemToggleIcon
+            expanded={isExpanded}
+            hasChildren={(props.item.children || []).length > 0}
+            iconClickHandler={iconClickHandler}
+          />
+          <div className="sac-item-label-text" onClick={labelTextClickHandler}>
+            <span>{props.item.value}</span>
+            <SacItemSelectedIcon
+              isSelected={props.item.selected || false}></SacItemSelectedIcon>
+          </div>
         </div>
+        {children}
       </div>
-      {children}
-    </div>
-  );
+    );
+  }
+  return null;
 };
 
 export default SacItem;
