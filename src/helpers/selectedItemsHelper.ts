@@ -38,6 +38,15 @@ export const setItemSelection = (item: ISacItem, isSelected: boolean): void => {
   }
 };
 
+export const invertItemSelection = (item: ISacItem): void => {
+  item.selected = !item.selected;
+  if (item.children) {
+    for (let child of item.children) {
+      invertItemSelection(child);
+    }
+  }
+};
+
 export const setAllItemsSelection = (
   data: ISacItem[],
   isSelected: boolean
@@ -45,6 +54,14 @@ export const setAllItemsSelection = (
   const copy: ISacItem[] = JSON.parse(JSON.stringify(data));
   copy.forEach((item) => {
     setItemSelection(item, isSelected);
+  });
+  return copy;
+};
+
+export const invertItemsSelection = (data: ISacItem[]): ISacItem[] => {
+  const copy: ISacItem[] = JSON.parse(JSON.stringify(data));
+  copy.forEach((item) => {
+    invertItemSelection(item);
   });
   return copy;
 };

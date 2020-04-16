@@ -4,6 +4,8 @@ import {
   setItemSelection,
   calculateDataSelection,
   setAllItemsSelection,
+  invertItemsSelection,
+  invertItemSelection,
 } from "./selectedItemsHelper";
 import { ISacItem, ISelectionItem } from "../components/sac/sac";
 
@@ -710,5 +712,101 @@ describe("setAllItemsSelection()", () => {
       },
     ];
     expect(actual).toEqual(expected);
+  });
+});
+
+describe("invertItemsSelection()", () => {
+  test("Inverts all items selcted state", () => {
+    const data: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        selected: false,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: true,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: false,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: true,
+      },
+    ];
+    const actual = invertItemsSelection(data);
+    const expected: ISacItem[] = [
+      {
+        id: "1",
+        value: "One",
+        selected: true,
+        children: [
+          {
+            id: "1.1",
+            value: "One.one",
+            selected: false,
+          },
+          {
+            id: "1.2",
+            value: "One.two",
+            selected: true,
+          },
+        ],
+      },
+      {
+        id: "2",
+        value: "Two",
+        selected: false,
+      },
+    ];
+    expect(actual).toEqual(expected);
+  });
+});
+
+describe("invertItemSelection()", () => {
+  test("Inverts item selection state", () => {
+    const item: ISacItem = {
+      id: "1",
+      value: "One",
+      selected: false,
+      children: [
+        {
+          id: "1.1",
+          value: "One.one",
+          selected: true,
+        },
+        {
+          id: "1.2",
+          value: "One.two",
+          selected: false,
+        },
+      ],
+    };
+    invertItemSelection(item);
+    const expected = {
+      id: "1",
+      value: "One",
+      selected: true,
+      children: [
+        {
+          id: "1.1",
+          value: "One.one",
+          selected: false,
+        },
+        {
+          id: "1.2",
+          value: "One.two",
+          selected: true,
+        },
+      ],
+    };
+    expect(item).toEqual(expected);
   });
 });

@@ -3,6 +3,7 @@ import {
   calculateDataSelection,
   calculateSelectionItem,
   setAllItemsSelection,
+  invertItemsSelection,
 } from "../../helpers/selectedItemsHelper";
 import SacButton from "../sacButton/sacButton";
 import SacOverlay from "../sacOverlay/sacOverlay";
@@ -178,6 +179,8 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
     btnInvertSelection_clickHandler: (
       e: React.MouseEvent<HTMLButtonElement>
     ) => {
+      const newDataSelection = invertItemsSelection(dataSelection);
+      setDataSelection(newDataSelection);
       const callback = (footer.btnInvertSelection || {}).callback;
       applyCallback(e, callback);
     },
