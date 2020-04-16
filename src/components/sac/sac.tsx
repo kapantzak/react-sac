@@ -5,7 +5,10 @@ import {
 } from "../../helpers/selectedItemsHelper";
 import SacButton from "../sacButton/sacButton";
 import SacOverlay from "../sacOverlay/sacOverlay";
-import { defaultOptions } from "../../helpers/optionsHelper";
+import {
+  defaultOptions,
+  SacItemTextSearchType,
+} from "../../helpers/optionsHelper";
 import defaultsDeep from "lodash.defaultsdeep";
 import "./sac.css";
 
@@ -33,7 +36,8 @@ export interface ISacOptHeader {
 }
 
 export interface ISacOptTools {
-  defaultSearchType?: string;
+  //defaultSearchType?: string;
+  defaultSearchItem?: ISacItemSearch;
 }
 
 export interface ISacOptFooter {
@@ -75,7 +79,13 @@ export interface ISacItem {
   value: string;
   selected?: boolean;
   expanded?: boolean;
+  hidden?: boolean;
   children?: ISacItem[];
+}
+
+export interface ISacItemSearch {
+  text: string;
+  type: SacItemTextSearchType;
 }
 
 export interface ISelectionItem {
@@ -91,6 +101,12 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
   const [isOpened, setIsOpened] = useState<boolean>(modal.opened || false);
   const [dataSelection, setDataSelection] = useState<ISacItem[]>(
     props.data.slice()
+  );
+  const [itemSearch, setItemSearch] = useState<ISacItemSearch>(
+    ((options || {}).tools || {}).defaultSearchItem || {
+      text: "",
+      type: SacItemTextSearchType.ExistsIn,
+    }
   );
 
   const escKeyDownHandler = (e: KeyboardEvent): void => {
@@ -115,6 +131,10 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
 
   const closeElementClickHandler = () => {
     setIsOpened(false);
+  };
+
+  const searchModeChangeHandler = (searchItem: ISacItemSearch) => {
+    setItemSearch(searchItem);
   };
 
   const itemClickHandler = (item: ISacItem) => {
@@ -170,7 +190,9 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
         data={dataSelection}
         options={options}
         closeElementClickHandler={closeElementClickHandler}
+        itemSearch={itemSearch}
         itemClickHandler={itemClickHandler}
+        searchModeChangeHandler={searchModeChangeHandler}
         footerButtonsActions={footerButtonsActions}></SacOverlay>
     </React.Fragment>
   );
