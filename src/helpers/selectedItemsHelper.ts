@@ -4,7 +4,7 @@ export const calculateDataSelection = (
   item: ISacItem,
   dataSelection: ISacItem[]
 ): ISacItem[] => {
-  const copy = dataSelection.slice();
+  const copy = JSON.parse(JSON.stringify(dataSelection));
   const thisItem = getItemById(item.id, copy);
   if (thisItem) {
     setItemSelection(thisItem, item.selected || false);
@@ -39,7 +39,7 @@ export const setItemSelection = (item: ISacItem, isSelected: boolean): void => {
 };
 
 export const calculateSelectionItem = (data: ISacItem[]): ISelectionItem => {
-  const collection = data.slice();
+  const collection = JSON.parse(JSON.stringify(data));
   let allSelected = true;
   const selectedItems: ISacItem[] = [];
 

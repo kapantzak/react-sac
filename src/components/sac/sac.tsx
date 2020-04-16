@@ -36,7 +36,6 @@ export interface ISacOptHeader {
 }
 
 export interface ISacOptTools {
-  //defaultSearchType?: string;
   defaultSearchItem?: ISacItemSearch;
 }
 
@@ -99,9 +98,10 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
   const footer = options.footer || {};
 
   const [isOpened, setIsOpened] = useState<boolean>(modal.opened || false);
-  const [dataSelection, setDataSelection] = useState<ISacItem[]>(
-    props.data.slice()
-  );
+
+  let initData = JSON.parse(JSON.stringify(props.data));
+  const [dataSelection, setDataSelection] = useState<ISacItem[]>(initData);
+  const [initialData, setInitialData] = useState<ISacItem[]>(initData);
   const [itemSearch, setItemSearch] = useState<ISacItemSearch>(
     ((options || {}).tools || {}).defaultSearchItem || {
       text: "",
@@ -157,11 +157,13 @@ const Sac: FunctionComponent<ISacProps> = (props: ISacProps) => {
 
   const footerButtonsActions: IFooterButtonsActions = {
     btnSelect_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      setInitialData(dataSelection);
       setIsOpened(false);
       const callback = (footer.btnSelect || {}).callback;
       applyCallback(e, callback);
     },
     btnCancel_clickHandler: (e: React.MouseEvent<HTMLButtonElement>) => {
+      setDataSelection(initialData);
       setIsOpened(false);
       const callback = (footer.btnCancel || {}).callback;
       applyCallback(e, callback);
