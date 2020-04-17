@@ -1,0 +1,16 @@
+.sac-footer-buttons-holder {
+  display: grid;
+}
+
+.sac-footer-buttons-holder.sac-footer-multiselect {
+  grid-template-columns: auto auto;
+  column-gap: 15px;
+}
+
+.sac-footer-buttons-holder.sac-footer-singleselect {
+  grid-template-columns: auto;
+}
+
+.sac-footer-buttons-actions {
+  justify-self: end;
+}

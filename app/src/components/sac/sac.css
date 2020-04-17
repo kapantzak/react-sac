@@ -1,0 +1,25 @@
+.sac-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.sac-modal {
+  position: fixed;
+  max-width: 90%;
+  max-height: 90%;
+  background-color: #fafafa;
+  border-radius: 4px;
+  padding: 15px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Helpers ----------------------------------------------------- */
+
+.hidden {
+  display: none;
+}
