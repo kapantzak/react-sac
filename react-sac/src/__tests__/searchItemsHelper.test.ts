@@ -1,9 +1,9 @@
-import { SacItemTextSearchType } from "./optionsHelper";
+import { SacItemTextSearchType } from "../helpers/optionsHelper";
 import {
   getSearchTypeEnum,
   getSearchTypeValue,
   showSacItemBasedOnSearch,
-} from "./searchItemsHelper";
+} from "../helpers/searchItemsHelper";
 
 describe("getSearchTypeEnum()", () => {
   test.each([
