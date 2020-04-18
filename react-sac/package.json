@@ -2,7 +2,8 @@
   "name": "react-sac",
   "version": "0.2.0",
   "description": "Search area control component",
-  "main": "index.js",
+  "main": "./build/index.js",
+  "types": "./index.d.ts",
   "scripts": {
     "build": "webpack",
     "test": "jest"
@@ -28,11 +29,11 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/jest": "^25.2.1",
-    "@types/lodash.defaultsdeep": "^4.6.6",
+    "@types/lodash": "^4.14.150",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
-    "lodash.defaultsdeep": "^4.6.1",
+    "lodash": "^4.17.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.9.0",
+    "awesome-typescript-loader": "^5.2.1",
     "css-loader": "^3.5.2",
     "jest": "^25.3.0",
     "source-map-loader": "^0.2.4",

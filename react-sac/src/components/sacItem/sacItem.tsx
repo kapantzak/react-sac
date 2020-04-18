@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from "react";
 import SacItemToggleIcon from "../sacItemToggleIcon/sacItemToggleIcon";
 import SacItemSelectedIcon from "../sacItemSelectedIcon/sacItemSelectedIcon";
-import { ISacItem, ISacItemSearch } from "../../index";
+import { ISacItem, ISacItemSearch } from "../../../index";
 import { showSacItemBasedOnSearch } from "../../helpers/searchItemsHelper";
 import "./sacItem.css";
 

@@ -9,7 +9,7 @@ import {
   ISacItemSearch,
   ISacOptions,
   IFooterButtonsActions,
-} from "../../index";
+} from "../../../index";
 import "./sacOverlay.css";
 
 export interface ISacOverlayProps {

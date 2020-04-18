@@ -1,4 +1,4 @@
-import { ISacOptions } from "../index";
+import { ISacOptions } from "../../index";
 
 export enum SacItemTextSearchType {
   None,

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { ISacOptTools, ISacItemSearch } from "../../index";
+import { ISacOptTools, ISacItemSearch } from "../../../index";
 import { SacItemTextSearchType } from "../../helpers/optionsHelper";
 import {
   getSearchTypeEnum,
