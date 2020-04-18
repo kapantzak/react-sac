@@ -1,5 +1,5 @@
 import React from "react";
-import { ISacItem, ISacOptions, ISelectionItem } from "react-sac"; //"./components/sac/sac";
+import Sac, { ISacItem, ISacOptions, ISelectionItem } from "react-sac";
 import "./App.css";
 
 const data: ISacItem[] = [
@@ -71,8 +71,7 @@ const options: ISacOptions = {
 function App() {
   return (
     <div className="App">
-      <div>test</div>
-      {/* <Sac options={options} data={data}></Sac> */}
+      <Sac options={options} data={data}></Sac>
     </div>
   );
 }

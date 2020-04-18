@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { SacItemTextSearchType } from "./src/helpers/optionsHelper";
 
 export interface ISacProps {
@@ -80,3 +80,8 @@ export interface ISelectionItem {
   allSelected: boolean;
   selectedItems: ISacItem[];
 }
+
+declare interface ISac extends FunctionComponent<ISacProps> {}
+const Sac: ISac = {};
+
+export default Sac;
