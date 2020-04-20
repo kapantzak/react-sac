@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { ISacOptFooterButton } from "../../../index";
+import { ISacOptFooterButton } from "../../../types/index";
 
 export interface IButtonProps {
   buttonOptions: ISacOptFooterButton;

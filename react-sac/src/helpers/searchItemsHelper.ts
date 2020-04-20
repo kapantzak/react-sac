@@ -1,5 +1,5 @@
 import { SacItemTextSearchType } from "./optionsHelper";
-import { ISacItem, ISacItemSearch } from "../../index";
+import { ISacItem, ISacItemSearch } from "../../types/index";
 
 export const getSearchTypeValue = (type: SacItemTextSearchType): string => {
   switch (type) {

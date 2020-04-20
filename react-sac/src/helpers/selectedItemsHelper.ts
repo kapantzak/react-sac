@@ -1,4 +1,4 @@
-import { ISacItem, ISelectionItem } from "../../index";
+import { ISacItem, ISelectionItem } from "../../types/index";
 
 export const calculateDataSelection = (
   item: ISacItem,

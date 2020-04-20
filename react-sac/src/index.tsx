@@ -9,7 +9,7 @@ import SacButton from "./components/sacButton/sacButton";
 import SacOverlay from "./components/sacOverlay/sacOverlay";
 import { defaultOptions, SacItemTextSearchType } from "./helpers/optionsHelper";
 import { defaultsDeep } from "lodash";
-import * as types from "../index";
+import * as types from "../types/index";
 import "./index.css";
 
 const Sac: FunctionComponent<types.ISacProps> = (props: types.ISacProps) => {

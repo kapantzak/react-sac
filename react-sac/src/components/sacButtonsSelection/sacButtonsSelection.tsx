@@ -3,7 +3,7 @@ import {
   ISacOptModal,
   ISacOptFooter,
   IFooterButtonsActions,
-} from "../../../index";
+} from "../../../types/index";
 import Button from "../button/button";
 import "./sacButtonsSelection.css";
 

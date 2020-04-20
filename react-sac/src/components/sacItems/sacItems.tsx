@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import SacItem from "../sacItem/sacItem";
-import { ISacItem, ISacItemSearch } from "../../../index";
+import { ISacItem, ISacItemSearch } from "../../../types/index";
 import "./sacItems.css";
 
 export interface ISacItemsProps {

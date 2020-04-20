@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { ISacOptHeader } from "../../../index";
+import { ISacOptHeader } from "../../../types/index";
 import "./header.css";
 
 export interface IHeaderProps {
