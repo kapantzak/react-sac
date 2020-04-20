@@ -1,37 +1,47 @@
 import React from "react";
+// import Sac from "./react-sac/src/index";
+// import { ISacItem, ISacOptions, ISelectionItem } from "./react-sac/types/index";
 import Sac, { ISacItem, ISacOptions, ISelectionItem } from "react-sac";
 import "./App.css";
 
 const data: ISacItem[] = [
   {
     id: "1",
-    value: "One",
+    value: "Animal",
     children: [
       {
         id: "1.1",
-        value: "One.One",
+        value: "Reptile",
         children: [
           {
             id: "1.1.1",
-            value: "One.One.One",
-            children: [
-              {
-                id: "1.1.1.1",
-                value: "One.one.one.one",
-              },
-            ],
+            value: "Lizard",
+          },
+          {
+            id: "1.1.2",
+            value: "Snake",
           },
         ],
       },
       {
         id: "1.2",
-        value: "One.Two",
+        value: "Mammal",
+        children: [
+          {
+            id: "1.2.1",
+            value: "Equine",
+          },
+          {
+            id: "1.2.1",
+            value: "Bovine",
+          },
+          {
+            id: "1.2.1",
+            value: "Canine",
+          },
+        ],
       },
     ],
-  },
-  {
-    id: "2",
-    value: "Two",
   },
 ];
 
