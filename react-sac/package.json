@@ -1,6 +1,6 @@
 {
   "name": "react-sac",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Search area control component",
   "main": "./build/index.js",
   "types": "./types/index.d.ts",
