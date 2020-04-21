@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-## [v0.4.0] - 2020-04-20
+## [v0.4.0] - 2020-04-21
 
 ### Added
 - Main button selection text update functionality
@@ -10,6 +10,9 @@
 
 ### Changed
 - Typings directory
+
+### Fixed
+- Searching functionality
 
 ## [v0.3.0] - 2020-04-18
 

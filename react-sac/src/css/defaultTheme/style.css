@@ -30,6 +30,22 @@
 
 /* Sac items ------------------------------------------ */
 
+.sac-modal-items {
+  max-height: calc(100vh - 400px);
+  overflow: auto;
+  margin: 15px 0;
+}
+
+.level-0 > .sac-item-label > .sac-item-label-text {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.level-1 > .sac-item-label > .sac-item-label-text {
+  font-size: 1em;
+  font-weight: bold;
+}
+
 .sac-item-label-text {
   padding: 5px 8px 5px 5px;
   transition: background-color 150ms ease-in-out;

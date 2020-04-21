@@ -13,6 +13,7 @@ const SacItems: FunctionComponent<ISacItemsProps> = (props: ISacItemsProps) => {
   const items = props.data.map((x) => (
     <SacItem
       key={x.id}
+      level={0}
       item={x}
       itemSearch={props.itemSearch}
       itemClickHandler={props.itemClickHandler}></SacItem>
