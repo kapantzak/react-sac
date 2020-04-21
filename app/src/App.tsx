@@ -1,7 +1,7 @@
 import React from "react";
-import Sac from "./react-sac/src/index";
-import { ISacItem, ISacOptions, ISelectionItem } from "./react-sac/types/index";
-//import Sac, { ISacItem, ISacOptions, ISelectionItem } from "react-sac";
+// import Sac from "./react-sac/src/index";
+// import { ISacItem, ISacOptions, ISelectionItem } from "./react-sac/types/index";
+import Sac, { ISacItem, ISacOptions, ISelectionItem } from "react-sac";
 import "./App.css";
 
 const data: ISacItem[] = [
@@ -389,22 +389,6 @@ const data: ISacItem[] = [
     id: "6",
     value: "Antarctica",
   },
-  {
-    id: "7",
-    value: "A big heading for item seven",
-  },
-  {
-    id: "8",
-    value: "A big heading for item eight",
-  },
-  {
-    id: "9",
-    value: "A big heading for item nine",
-  },
-  {
-    id: "10",
-    value: "A big heading for item ten",
-  },
 ];
 
 const options: ISacOptions = {
@@ -412,7 +396,7 @@ const options: ISacOptions = {
     text: "Cities",
   },
   header: {
-    modalTitle: "My title",
+    modalTitle: "Cities of the world",
   },
   modal: {
     // opened: true,
