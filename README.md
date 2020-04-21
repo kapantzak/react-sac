@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/react-sac.svg)](https://badge.fury.io/js/react-sac)
+
 # react-sac
 Search area component for React. Display **hierarchically structured data**, search specific term and select one or more items.
 

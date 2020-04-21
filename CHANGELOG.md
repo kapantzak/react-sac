@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [v0.4.2] - 2020-04-21
+
+### Added
+- npm package badge
+
 ## [v0.4.1] - 2020-04-21
 
 ### Fixed
@@ -43,6 +48,7 @@
 	- Provide selection callbacks
 
 [Unreleased]: https://github.com/kapantzak/react-sac/compare/master...develop
+[v0.4.2]: https://github.com/kapantzak/react-sac/compare/v0.4.1...v0.4.2
 [v0.4.1]: https://github.com/kapantzak/react-sac/compare/0.4.0...v0.4.1
 [v0.4.0]: https://github.com/kapantzak/react-sac/compare/v0.3.0...0.4.0
 [v0.3.0]: https://github.com/kapantzak/react-sac/compare/v0.2.0...v0.3.0
