@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+## [v0.4.0] - 2020-04-21
+
+### Added
+- Main button selection text update functionality
+- Default css styles
+
+### Changed
+- Typings directory
+
+### Fixed
+- Searching functionality
+
 ## [v0.3.0] - 2020-04-18
 
 ### Added
@@ -26,5 +38,6 @@
 	- Provide selection callbacks
 
 [Unreleased]: https://github.com/kapantzak/react-sac/compare/master...develop
+[v0.4.0]: https://github.com/kapantzak/react-sac/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/kapantzak/react-sac/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://github.com/kapantzak/react-sac/compare/v0.1.0...v0.2.0

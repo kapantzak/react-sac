@@ -7,11 +7,19 @@ export interface ISacProps {
 }
 
 export interface ISacOptions {
+  button?: ISacButton;
   modal?: ISacOptModal;
   header?: ISacOptHeader;
   tools?: ISacOptTools;
   footer?: ISacOptFooter;
   events?: ISacOptEvents;
+}
+
+export interface ISacButton {
+  text?: string;
+  className?: string;
+  textAll?: string;
+  textNone?: string;
 }
 
 export interface ISacOptModal {
