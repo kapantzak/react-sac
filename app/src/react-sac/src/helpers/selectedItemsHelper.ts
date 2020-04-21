@@ -70,20 +70,16 @@ export const calculateSelectionItem = (data: ISacItem[]): ISelectionItem => {
   const collection = JSON.parse(JSON.stringify(data));
   let allSelected = true;
   const selectedItems: ISacItem[] = [];
-
-  while (collection.length > 0) {
-    for (let item of collection) {
-      collection.splice(0, 1);
-      if (item.selected) {
-        selectedItems.push(item);
-      } else {
-        allSelected = false;
-        if (item.children) {
-          const selItem = calculateSelectionItem(item.children);
-          selItem.selectedItems.forEach((x) => {
-            selectedItems.push(x);
-          });
-        }
+  for (let item of collection) {
+    if (item.selected) {
+      selectedItems.push(item);
+    } else {
+      allSelected = false;
+      if (item.children) {
+        const selItem = calculateSelectionItem(item.children);
+        selItem.selectedItems.forEach((x) => {
+          selectedItems.push(x);
+        });
       }
     }
   }

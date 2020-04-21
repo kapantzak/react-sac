@@ -6,6 +6,7 @@ import { showSacItemBasedOnSearch } from "../../helpers/searchItemsHelper";
 import "./sacItem.css";
 
 export interface ISacItemProps {
+  level: number;
   item: ISacItem;
   itemSearch: ISacItemSearch;
   itemClickHandler: Function;
@@ -24,6 +25,7 @@ const SacItem: FunctionComponent<ISacItemProps> = (props: ISacItemProps) => {
     const childrenItems = (props.item.children || []).map((x) => (
       <SacItem
         key={x.id}
+        level={props.level + 1}
         item={x}
         itemSearch={props.itemSearch}
         itemClickHandler={props.itemClickHandler}></SacItem>
@@ -49,12 +51,18 @@ const SacItem: FunctionComponent<ISacItemProps> = (props: ISacItemProps) => {
 
   const showItem = showSacItemBasedOnSearch(props.item, props.itemSearch);
   if (showItem && !props.item.hidden) {
+    const levelClassName = `level-${props.level}`;
+    const selectedClassName = `${
+      props.item.selected ? "sac-item-selected" : ""
+    }`;
+    const parentClassName = `${
+      (props.item.children || []).length > 0 ? "sac-item-parent" : ""
+    }`;
+
     return (
       <div
         key={props.item.id}
-        className={`sac-item ${
-          props.item.selected ? "sac-item-selected" : ""
-        }`}>
+        className={`sac-item ${levelClassName} ${parentClassName} ${selectedClassName}`}>
         <div className="sac-item-label">
           <SacItemToggleIcon
             expanded={isExpanded}

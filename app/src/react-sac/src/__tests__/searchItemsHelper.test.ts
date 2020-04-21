@@ -51,6 +51,11 @@ describe("showSacItemBasedOnSearch()", () => {
     ],
     [
       true,
+      { id: "1", value: "One", children: [{ id: "1.1", value: "New" }] },
+      { text: "n", type: SacItemTextSearchType.StartsWith },
+    ],
+    [
+      true,
       { id: "1", value: "One" },
       { text: "", type: SacItemTextSearchType.StartsWith },
     ],

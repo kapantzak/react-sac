@@ -7,7 +7,7 @@ import {
   invertItemsSelection,
   invertItemSelection,
 } from "../helpers/selectedItemsHelper";
-import { ISacItem, ISelectionItem } from "../index";
+import { ISacItem, ISelectionItem } from "../../types/index";
 
 describe("calculateSelectionItem()", () => {
   test("Returns all selected items", () => {
